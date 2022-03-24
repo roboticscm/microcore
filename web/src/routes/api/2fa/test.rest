@@ -1,0 +1,8 @@
+###
+POST http://localhost:3000/api/2fa/google-auth
+Content-Type: application/json
+
+{
+    "secret": "E)}yeLSxGUE<xNi9ac}eVNWFLuDK0/Rt",
+    "token": "123456"
+}

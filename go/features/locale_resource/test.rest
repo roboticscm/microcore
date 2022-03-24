@@ -1,0 +1,49 @@
+GET http://localhost:8080/locale-resource
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJGdWxsTmFtZSI6Ii8vVE9ETyIsIlVzZXJJZCI6IjEiLCJVc2VyTmFtZSI6InJvb3QiLCJleHAiOjE2MTY1OTgxMjF9.Rt_oQsTr4ANbMK2sq0F05MQqghB_S3ZV1cITN7GWOrH8XCbFwzNQEKneYZsPsqLXdCk8Fg-Se8lxWNHpZAQev0Fc-mCMKxqClAY-AD3SKF6McQo3ypsdjMyseG_wVdzxJWxNjFr_RGNo8Y7u7Q6Cl2N4dgUd7UQihXMy4ZuR2RE
+
+###
+
+
+GET http://localhost:8080/locale-resource/get-initial?locale=vi-VN
+
+
+
+###
+
+POST http://localhost:8080/locale-resource
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NUb2tlbiI6ImxldmVsMSIsIkN1c3RvbVVzZXJJbmZvIjp7IlVzZXJJZCI6MTAwLCJVc2VyTmFtZSI6ImtoYWkubHYiLCJGdWxsTmFtZSI6Ikx5IFZhbiBLaGFpIn0sImV4cCI6MTYwNjEyMDI0Mn0.UwQivrT2RsCC5_XXuPcSn_niuXS16ybpYcETktEdJCZR-lDqQuBbOtGn4tkf-qmZ_XonsnVJwdvZBf1ieMRd8NeiVMyFyEZ3mjh6PxhsmBufXY5WiaC1nhfsbfNg0qEJn7LPe0TyA0YJUlNRmIi5_NrydxnuJSxOuAeDMz4RrhE
+
+{
+    "key": "Other6111",
+    "value": "Khác4",
+    "createdBy": 123,
+    "updatedBy": null
+}
+
+
+###
+
+PUT http://localhost:8080/locale-resources
+Content-Type: application/json
+
+{
+    "id": 1,
+    "key": "Other61",
+    "value": "Khác4...",
+    "createdBy": 123,
+    "updatedBy": null
+}
+
+###
+DELETE http://localhost:8080/locale-resources
+Content-Type: application/json
+
+{
+    "id": 2446887879964623897
+}
+
+
+###
+GET http://localhost:8080/locale-resources/report

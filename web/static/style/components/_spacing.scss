@@ -1,0 +1,31 @@
+.default-padding {
+    padding: $default-spacing;
+}
+
+.default-left-padding {
+    padding-left: $default-spacing;
+}
+
+.default-right-padding {
+    padding-right: $default-spacing;
+}
+
+.default-top-padding {
+    padding-top: $default-spacing;
+}
+
+.default-bottom-padding {
+    padding-bottom: $default-spacing;
+}
+
+.large-padding {
+    padding: $large-spacing;
+}
+
+.very-large-padding {
+    padding: $very-large-spacing;
+}
+
+.extreme-large-padding {
+    padding: $extreme-large-spacing;
+}
