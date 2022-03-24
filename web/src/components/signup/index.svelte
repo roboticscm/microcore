@@ -53,6 +53,7 @@
 			}
 			
 		}).catch((err) => {
+			console.log(err)
 			snackbarRef.showUnknownError(_.isString(err) ? $t(err) : $t(err.unknownError))
 			
 		}).finally(() => isRunning = false);

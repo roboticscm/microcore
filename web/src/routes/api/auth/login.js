@@ -45,13 +45,13 @@ export const post = async ({ request }) => {
                 return restOk(res)
 
             } else {
-                return restError('sys.label.login failed')
+                return restError({unknownError: 'sys.msg.authentication failed'}, 401);
             }
         } else {
-            return restError('sys.label.login failed', 404, 'username does not existing')
+            return restError({unknownError: 'sys.msg.authentication failed'}, 404)
         }
     } catch (err) {
-        return restError('sys.label.login failed', 422, err)
+        return restError({unknownError: 'sys.msg.authentication failed'}, 422)
     }
 
 

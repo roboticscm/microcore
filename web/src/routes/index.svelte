@@ -53,7 +53,7 @@
 	let secret = '';
 	let token = '';
 	let valid = undefined;
-	let signupMode = true;
+	let signupMode = false;
 
 	const onCheck = () => {
 		fetch(`/api/2fa/google-auth`, {
