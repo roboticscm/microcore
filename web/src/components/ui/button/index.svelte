@@ -354,7 +354,7 @@
           {#if icon}
             <span style="width: 8px;" />
           {/if}
-          {@html text}
+          {@html  (text || '').countSubString('.') > 1 ? $t(text) : text}
         </span>
       {/if}
     {:else}
@@ -372,7 +372,7 @@
           {/if}
           {@html App.SPACE_CODE + App.SPACE_CODE}
           {#if showText}
-            {@html text || ''}
+            {@html  (text || '').countSubString('.') > 1 ? $t(text) : text}
           {/if}
         </div>
 
