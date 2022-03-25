@@ -162,7 +162,7 @@
 							on:click={doSignUp}
 							style="width: 80%; margin-top: 30px;"
 							type="submit"
-							text={$t('sys.button.sign up now')}
+							text={$t('sys.button.login')}
 							icon="<i class='fas fa-file-signature'>"
 							addClassName="btn-main btn-large"
 							btnType={ButtonType.login}
