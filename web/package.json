@@ -30,7 +30,6 @@
     "bowser": "^2.11.0",
     "coinpayments": "^2.2.0",
     "cookie": "^0.4.2",
-    "country-flag-icons": "^1.4.24",
     "handlebars": "^4.7.7",
     "js-sha256": "^0.9.0",
     "json-parse-bigint": "^1.0.4",
