@@ -372,7 +372,7 @@
           {/if}
           {@html App.SPACE_CODE + App.SPACE_CODE}
           {#if showText}
-            {@html $t(text) || ''}
+            {@html text || ''}
           {/if}
         </div>
 
