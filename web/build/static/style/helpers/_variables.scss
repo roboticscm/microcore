@@ -1,0 +1,61 @@
+// spacing
+$small-spacing: 3px;
+$default-spacing: 6px;
+$large-spacing: 12px;
+$very-large-spacing: 24px;
+$extreme-large-spacing: 48px;
+
+// dimension
+$header-height: 60px;
+$input-height: 27px;
+$button-height: 30px;
+
+//radius
+$default-radius: 6px;
+
+//border 
+$default-border: 1px solid var(--border-color);
+$light-border: 1px solid var(--border-light-color);
+$thin-active-border: 1px solid var(--border-active-color);
+
+
+//z-index
+$high-z-index: 999;
+$modal-z-index: 9998;
+
+//font
+//font size
+$small-font-size: 0.8rem;
+$default-font-size: 1rem;
+$large-icon-size: 1.1rem;
+$large-icon-size-plus: 1.7rem;
+$very-large-icon-size: 2.4rem;
+$default-font-family: 'Roboto', sans-serif;
+
+
+//grid system
+$cols: 24;
+$cols48: 48;
+$cols96: 96;
+
+// breakpoints map
+$breakpoints: (
+  xs: 568px,
+  sm: 768px,
+  md: 1024px,
+  lg: 1200px,
+  xl: 1366px,
+  xx: 1920px,
+  uw: 3840px,
+);
+
+
+$breakpoints-inv: (
+  uw: 3840px,
+  xx: 1920px,
+  xl: 1366px,
+  lg: 1200px,
+  md: 1024px,
+  sm: 768px,
+  xs: 568px
+);

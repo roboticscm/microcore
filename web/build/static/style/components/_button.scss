@@ -1,0 +1,24 @@
+.btn-flat {
+    @include create-flat-button();
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.btn-main {
+  background: var(--button-main-background);
+  color: var(--button-main-color);
+  &:hover:not(:focus):not(.text-disabled) {
+    border: 1px solid var(--button-hover-border-color);
+  }
+  &:focus {
+    border: 1px solid var(--button-focus-border-color);
+    background: var(--button-main-background);
+  }
+}
+
+.btn-large {
+  height: calc(#{$button-height} * 1.3);
+}

@@ -1,0 +1,116 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+// using grid
+// grid row
+.row {
+  display: grid;
+  grid-template-columns: repeat(#{$cols}, 1fr);
+  padding-top:$small-spacing;
+  padding-bottom:$small-spacing;
+  grid-column-gap: 10px;
+}
+
+.row48 {
+  display: grid;
+  grid-template-columns: repeat(#{$cols48}, 1fr);
+  padding-top:$small-spacing;
+  padding-bottom:$small-spacing;
+  grid-column-gap: 10px;
+}
+
+.row96 {
+  display: grid;
+  grid-template-columns: repeat(#{$cols96}, 1fr);
+  padding-top:$small-spacing;
+  padding-bottom:$small-spacing;
+  grid-column-gap: 10px;
+}
+
+@for $i from 1 through $cols {
+  .col-#{$i} {
+    grid-column-start: span $i;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
+
+@for $i from 1 through $cols48 {
+  .col48-#{$i} {
+    grid-column-start: span $i;
+    padding: 4px;
+  }
+}
+
+@for $i from 1 through 96 {
+  .col96-#{$i} {
+    grid-column-start: span $i;
+    padding: 2px;
+  }
+}
+
+// loop over the breakpoints
+@each $key, $value in $breakpoints {
+  @for $i from 0 to $cols {
+    .col-#{$key}-#{$cols - $i} {
+      grid-column-start: span ($cols - $i);
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+  }
+}
+
+@each $key, $value in $breakpoints-inv {
+  @for $i from 0 to $cols {
+    .col-#{$key}-#{$cols - $i} {
+      @include break($key) {
+        grid-column-start: span ($cols - $i);
+        padding-left: 4px;
+        padding-right: 4px;
+      }
+    }
+  }
+}
+
+
+@each $key, $value in $breakpoints {
+  @for $i from 0 to $cols48 {
+    .col48-#{$key}-#{$cols48 - $i} {
+      grid-column-start: span ($cols48 - $i);
+      padding: 4px;
+    }
+  }
+}
+
+@each $key, $value in $breakpoints-inv {
+  @for $i from 0 to $cols48 {
+    .col48-#{$key}-#{$cols48 - $i} {
+      @include break($key) {
+        grid-column-start: span ($cols48 - $i);
+        padding: 4px;
+      }
+    }
+  }
+}
+
+@each $key, $value in $breakpoints {
+  @for $i from 0 to 96 {
+    .col96-#{$key}-#{96 - $i} {
+      grid-column-start: span (96 - $i);
+      padding: 2px;
+    }
+  }
+}
+
+@each $key, $value in $breakpoints-inv {
+  @for $i from 0 to 96 {
+    .col96-#{$key}-#{96 - $i} {
+      @include break($key) {
+        grid-column-start: span (96 - $i);
+        padding: 2px;
+      }
+    }
+  }
+}
