@@ -1,3 +1,5 @@
+SHELL:=bash
+
 GO_LANG_URL_MAC=https://golang.org/dl/go1.16.2.darwin-amd64.tar.gz
 GO_LANG_URL_WIN=https://golang.org/dl/go1.16.windows-amd64.zip
 GO_LANG_URL_LINUX=https://golang.org/dl/go1.16.2.linux-amd64.tar.gz
