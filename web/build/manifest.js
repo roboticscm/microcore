@@ -3,7 +3,7 @@ export const manifest = {
 	assets: new Set(["images/favicon.png","images/login-background.png","images/logo.png","style/base/_reset.scss","style/components/_alignment.scss","style/components/_border.scss","style/components/_button.scss","style/components/_common-control.scss","style/components/_dimension.scss","style/components/_floating-input.scss","style/components/_layout.scss","style/components/_menu.scss","style/components/_misc.scss","style/components/_shadow.scss","style/components/_snackbar.scss","style/components/_spacing.scss","style/components/_text-decoration.scss","style/helpers/_mixin.scss","style/helpers/_variables.scss","style/index.scss","style/responsive/_alignment.scss","style/responsive/_grid-system.scss","style/responsive/_margin.scss","style/responsive/_padding.scss","style/themes/_default.scss","style/views/_login.scss"]),
 	mimeTypes: {".png":"image/png",".scss":"text/x-scss"},
 	_: {
-		entry: {"file":"start-fe23e8fe.js","js":["start-fe23e8fe.js","chunks/vendor-874722da.js","chunks/preload-helper-e4860ae8.js"],"css":[]},
+		entry: {"file":"start-b3a5e808.js","js":["start-b3a5e808.js","chunks/vendor-874722da.js","chunks/preload-helper-e4860ae8.js"],"css":[]},
 		nodes: [
 			() => import('./server/nodes/0.js'),
 			() => import('./server/nodes/1.js'),
