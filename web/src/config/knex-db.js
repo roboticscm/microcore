@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 // Update with your config settings.
 const dbServer = '18.140.147.176';
 

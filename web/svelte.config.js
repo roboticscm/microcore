@@ -5,8 +5,10 @@ import preprocessor from 'svelte-preprocess';
 const config = {
 	preprocess: preprocessor(),
 	kit: {
-		adapter: adapter()
-	}
+		adapter: adapter({
+			
+		}),
+	},
 };
 
 export default config;

@@ -45,6 +45,8 @@
         display: flex;
         column-gap: $default-spacing;
         padding: $default-spacing;
+        padding-top: $large-spacing;
+        padding-bottom: $large-spacing;
         cursor: pointer;
         user-select: none;
         border: 1px solid transparent;

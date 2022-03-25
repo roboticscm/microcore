@@ -17,7 +17,8 @@ docker-build:
 	docker build -t node-server -f Dockerfile .
 
 docker-run:
-	cp -Rf ./start.sh ./build
 	docker run \
 	-p 80:3000 \
-	-v "build":/app --name node-server5 node-server
+	-v "build":/app --name node-server6 node-server
+
+docker: docker-build docker-run
