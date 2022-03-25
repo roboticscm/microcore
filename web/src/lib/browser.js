@@ -1,5 +1,4 @@
 import Bowser from 'bowser';
-import MobileDetect from 'mobile-detect';
 
 export class Browser {
   static isSafari() {
@@ -37,10 +36,4 @@ export class Browser {
 
     return guid;
   };
-
-  static isSmartPhone = () => {
-    const md = new MobileDetect(window.navigator.userAgent);
-    return md.mobile() !== null && md.phone() !== null;
-
-  }
 }

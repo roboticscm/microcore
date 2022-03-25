@@ -1,6 +1,4 @@
 import { Errors } from './errors';
-import { RxHttp } from '../rx-http';
-import { BJSON } from '../bjson';
 
 export default class Form {
   constructor(data, autoReset = true) {
@@ -35,26 +33,6 @@ export default class Form {
       }
     }
     this.errors.clearAll();
-  }
-
-  post(baseUrl, url) {
-    return this.submit('post', baseUrl, url);
-  }
-
-  put(baseUrl, url) {
-    return this.submit('put', baseUrl, url);
-  }
-
-  patch(baseUrl, url) {
-    return this.submit('patch', baseUrl, url);
-  }
-
-  delete(baseUrl, url) {
-    return this.submit('delete', baseUrl, url);
-  }
-
-  submit(requestType, baseUrl, url) {
-    return RxHttp.callApi(requestType, baseUrl, url, undefined, BJSON.stringify(this.data()));
   }
 
   recordErrors(error) {
