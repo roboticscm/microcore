@@ -5,7 +5,7 @@ var __publicField = (obj, key, value) => {
   return value;
 };
 import { v4 } from "uuid";
-import { H as HtmlPrefixParser } from "./constants-c334863d.js";
+import { H as HtmlPrefixParser } from "./constants-ea9bcd9b.js";
 import Handlebars from "handlebars";
 const genUUID = () => {
   return ("id" + v4()).replaceAll("-", "_");
@@ -357,7 +357,7 @@ __publicField(StringUtil, "replaceParamAsTag", async (stringSource, paramObj, di
       const fieldName = parts[indexField].replace(HtmlPrefixParser.READONLY, "");
       const replaceContent = curMatch[0];
       if (helperFunction) {
-        const res = await import("./helper_function-a30efd39.js");
+        const res = await import("./helper_function-ef154ccc.js");
         if (res[helperFunction]) {
           const value = res[helperFunction](paramObj[fieldName] || "");
           const html = `${value}`;

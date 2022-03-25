@@ -4,7 +4,7 @@ var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-import { B as Browser } from "./browser-904e0c5e.js";
+import { B as Browser } from "./browser-231be779.js";
 import vnNum2Words from "vn-num2words";
 import "bowser";
 const _SNumber = class {

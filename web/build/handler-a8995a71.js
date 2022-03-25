@@ -751,50 +751,14 @@ async function setResponse(res, response) {
 	}
 }
 
-/* global "" */
-
-const expected = new Set([
-	'SOCKET_PATH',
-	'HOST',
-	'PORT',
-	'ORIGIN',
-	'XFF_DEPTH',
-	'ADDRESS_HEADER',
-	'PROTOCOL_HEADER',
-	'HOST_HEADER'
-]);
-
-if ("") {
-	for (const name in process.env) {
-		if (name.startsWith("")) {
-			const unprefixed = name.slice("".length);
-			if (!expected.has(unprefixed)) {
-				throw new Error(
-					`You should change envPrefix (${""}) to avoid conflicts with existing environment variables — unexpectedly saw ${name}`
-				);
-			}
-		}
-	}
-}
-
-/**
- * @param {string} name
- * @param {any} fallback
- */
-function env(name, fallback) {
-	const prefixed = "" + name;
-	return prefixed in process.env ? process.env[prefixed] : fallback;
-}
-
-/* global "" */
+/* global process.env["ORIGIN"], "ADDRESS_HEADER", "PROTOCOL_HEADER", "HOST_HEADER", -1 */
 
 const server = new Server(manifest);
-const origin = env('ORIGIN', undefined);
-const xff_depth = parseInt(env('XFF_DEPTH', '1'));
+const origin = process.env["ORIGIN"];
 
-const address_header = env('ADDRESS_HEADER', '').toLowerCase();
-const protocol_header = env('PROTOCOL_HEADER', '').toLowerCase();
-const host_header = env('HOST_HEADER', 'host').toLowerCase();
+const address_header = "ADDRESS_HEADER" && (process.env["ADDRESS_HEADER"] || '').toLowerCase();
+const protocol_header = "PROTOCOL_HEADER" && process.env["PROTOCOL_HEADER"];
+const host_header = ("HOST_HEADER" && process.env["HOST_HEADER"]) || 'host';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -824,15 +788,12 @@ const ssr = async (req, res) => {
 		request = await getRequest(origin || get_origin(req.headers), req);
 	} catch (err) {
 		res.statusCode = err.status || 400;
-		res.end(err.reason || 'Invalid request body');
-		return;
+		return res.end(err.reason || 'Invalid request body');
 	}
 
 	if (address_header && !(address_header in req.headers)) {
 		throw new Error(
-			`Address header was specified with ${
-				"" + 'ADDRESS_HEADER'
-			}=${address_header} but is absent from request`
+			`Address header was specified with ${"ADDRESS_HEADER"}=${process.env["ADDRESS_HEADER"]} but is absent from request`
 		);
 	}
 
@@ -845,19 +806,7 @@ const ssr = async (req, res) => {
 
 					if (address_header === 'x-forwarded-for') {
 						const addresses = value.split(',');
-
-						if (xff_depth < 1) {
-							throw new Error(`${"" + 'XFF_DEPTH'} must be a positive integer`);
-						}
-
-						if (xff_depth > addresses.length) {
-							throw new Error(
-								`${"" + 'XFF_DEPTH'} is ${xff_depth}, but only found ${
-									addresses.length
-								} addresses`
-							);
-						}
-						return addresses[addresses.length - xff_depth].trim();
+						return addresses[(addresses.length + -1) % addresses.length].trim();
 					}
 
 					return value;
@@ -911,4 +860,4 @@ const handler = sequence(
 	].filter(Boolean)
 );
 
-export { env as e, handler as h, parse as p };
+export { handler as h, parse as p };

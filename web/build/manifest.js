@@ -3,7 +3,7 @@ export const manifest = {
 	assets: new Set(["images/favicon.png","images/login-background.png","images/logo.png","style/base/_reset.scss","style/components/_alignment.scss","style/components/_border.scss","style/components/_button.scss","style/components/_common-control.scss","style/components/_dimension.scss","style/components/_floating-input.scss","style/components/_layout.scss","style/components/_menu.scss","style/components/_misc.scss","style/components/_shadow.scss","style/components/_snackbar.scss","style/components/_spacing.scss","style/components/_text-decoration.scss","style/helpers/_mixin.scss","style/helpers/_variables.scss","style/index.scss","style/responsive/_alignment.scss","style/responsive/_grid-system.scss","style/responsive/_margin.scss","style/responsive/_padding.scss","style/themes/_default.scss","style/views/_login.scss"]),
 	mimeTypes: {".png":"image/png",".scss":"text/x-scss"},
 	_: {
-		entry: {"file":"start-b3a5e808.js","js":["start-b3a5e808.js","chunks/vendor-874722da.js","chunks/preload-helper-e4860ae8.js"],"css":[]},
+		entry: {"file":"start-edef5d1b.js","js":["start-edef5d1b.js","chunks/vendor-874722da.js","chunks/preload-helper-e4860ae8.js"],"css":[]},
 		nodes: [
 			() => import('./server/nodes/0.js'),
 			() => import('./server/nodes/1.js'),
@@ -15,10 +15,9 @@ export const manifest = {
 		routes: [
 			{
 				type: 'page',
-				id: "",
+				key: "",
 				pattern: /^\/$/,
-				names: [],
-				types: [],
+				params: null,
 				path: "/",
 				shadow: null,
 				a: [0,2],
@@ -26,18 +25,15 @@ export const manifest = {
 			},
 			{
 				type: 'endpoint',
-				id: "api.json",
 				pattern: /^\/api\.json$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api.json.js')
 			},
 			{
 				type: 'page',
-				id: "about",
+				key: "about",
 				pattern: /^\/about\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				path: "/about",
 				shadow: null,
 				a: [0,3],
@@ -45,10 +41,9 @@ export const manifest = {
 			},
 			{
 				type: 'page',
-				id: "home",
+				key: "home",
 				pattern: /^\/home\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				path: "/home",
 				shadow: null,
 				a: [0,4,5],
@@ -56,128 +51,94 @@ export const manifest = {
 			},
 			{
 				type: 'endpoint',
-				id: "api/resource/find",
 				pattern: /^\/api\/resource\/find\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/resource/find.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/partner/validation",
 				pattern: /^\/api\/partner\/validation\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/partner/validation.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/partner/sign-up",
 				pattern: /^\/api\/partner\/sign-up\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/partner/sign-up.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/notify/notify",
 				pattern: /^\/api\/notify\/notify\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/notify/notify.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/auth",
 				pattern: /^\/api\/auth\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/auth/index.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/auth/refresh-token",
 				pattern: /^\/api\/auth\/refresh-token\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/auth/refresh-token.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/auth/validation",
 				pattern: /^\/api\/auth\/validation\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/auth/validation.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/auth/api.json",
 				pattern: /^\/api\/auth\/api\.json$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/auth/api.json.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/auth/register",
 				pattern: /^\/api\/auth\/register\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/auth/register.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/auth/logout",
 				pattern: /^\/api\/auth\/logout\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/auth/logout.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/auth/login",
 				pattern: /^\/api\/auth\/login\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/auth/login.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/util/delete",
 				pattern: /^\/api\/util\/delete\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/util/delete.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/util/remove",
 				pattern: /^\/api\/util\/remove\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/util/remove.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/2fa/google-auth",
 				pattern: /^\/api\/2fa\/google-auth\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/2fa/google-auth.js')
 			},
 			{
 				type: 'endpoint',
-				id: "api/org/upsert",
 				pattern: /^\/api\/org\/upsert\/?$/,
-				names: [],
-				types: [],
+				params: null,
 				load: () => import('./server/entries/endpoints/api/org/upsert.js')
 			}
-		],
-		matchers: async () => {
-			
-			return {  };
-		}
+		]
 	}
 };
