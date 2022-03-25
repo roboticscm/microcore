@@ -8,17 +8,20 @@ find-pid:
 kill-pid:
 	taskkill /F /PID $i
 
-kill-port:
+kill-port-3000:
 	kill -9 $$(lsof -t -i:3000)
 
+kill-port-80:
+	kill -9 $$(lsof -t -i:80)
+
 docker-build:
-	docker rm -f node-server || true
 	docker image rm -f node-server || true
 	docker build -t node-server -f Dockerfile .
 
 docker-run:
-	docker run \
+	docker rm -f node-server || true
+	docker run -d \
 	-p 80:3000 \
-	-v "build":/app --name node-server6 node-server
+	-v "build":/app --name node-server node-server
 
 docker: docker-build docker-run
