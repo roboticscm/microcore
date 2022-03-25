@@ -1,15 +1,21 @@
 <script>
 	import { Dropdown } from '$lib/dropdown';
+	import { t } from '$lib/i18n';	
+	import Locale from '/src/components/locale/index.svelte';
 
 	let activeMenuId;
 	let dropdownRef;
 	const menuList = [
-		{ code: 'menu1', icon: '', name: 'sys.menu.menu1', path: '/about' },
-		{ code: 'menu2', icon: '', name: 'sys.menu.menu2', path: '/about' },
 		{ code: 'separator' },
-		{ code: 'menu3', icon: '', name: 'sys.menu.menu3', path: '/about' },
-		{ code: 'menu4', icon: '', name: 'sys.menu.menu4', path: '/about' },
-		{ code: 'menu5', icon: '', name: 'sys.menu.menu5', path: '/about' }
+		{ code: 'dashboard', icon: '<i class="fas fa-chart-bar"></i>', name: 'sys.menu.dashboard', path: '/dashboard' },
+		{ code: 'profile', icon: '<i class="fas fa-user-circle"></i>', name:  'sys.menu.profile', path: '/profile' },
+		{ code: 'tradingPackage', icon: '<i class="fa-solid fa-box-open"></i>', name:  'sys.menu.trading package', path: '/trading-package' },
+		{ code: 'wallet', icon: '<i class="fa-solid fa-bitcoin-sign"></i>', name:  'sys.menu.wallet', path: '/wallet' },
+		{ code: 'referrals', icon: '<i class="fas fa-users"></i>', name:  'sys.menu.referrals', path: '/referrals' },
+		{ code: 'tradingProof', icon: '<i class="fa-solid fa-bitcoin-sign"></i>', name:  'sys.menu.trading proof', path: '/tradingProof' },
+		{ code: 'separator' },
+		{ code: 'blogs', icon: '<i class="fas fa-blog"></i>', name:  'sys.menu.blogs', path: '/blogs' },
+		{ code: 'about', icon: '<i class="fa-solid fa-user-astronaut"></i>', name:  'sys.menu.about', path: '/about' }
 	];
 
 	const onChooseMenuItem = (menu) => {
@@ -26,12 +32,18 @@
 	<div class="nav__avatar">
 		{'username'}
 		<img src="/images/logo.png" alt="Avt" />
+		<div style="position: relative; margin-left: 12px; width: 24px; margin-top: -30px; margin-right: -6px;" class="center-box">
+			<Locale/>
+		</div>
 	</div>
+	
 </div>
 
 <div bind:this={dropdownRef} class="dropdown">
 	<div class="dropdown__header">
-		<div class="dropdown__header__avatar">Avatr</div>
+		<div class="dropdown__header__avatar">
+			<img src="/images/logo.png" alt="Avt" />
+		</div>
 		<div class="dropdown__header__username">username</div>
 	</div>
 	{#if menuList && Array.isArray(menuList)}
@@ -45,8 +57,8 @@
 					on:click={() => onChooseMenuItem(menu)}
 					class="dropdown__item {activeMenuId === menu.code ? 'dropdown__item__active' : ''}"
 				>
-					<div>Icon</div>
-					<div>{@html menu.name}</div>
+					<div>{@html menu.icon}</div>
+					<div>{@html $t(menu.name)}</div>
 				</div>
 			{/if}
 		{/each}
