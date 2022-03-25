@@ -7,6 +7,10 @@ export const validate = (form) => {
     error.username = CommonValidation.REQUIRED_VALUE;
   }
 
+  if (CommonValidation.isEmptyString(form.email)) {
+    error.email = CommonValidation.REQUIRED_VALUE;
+  }
+
   if (!CommonValidation.isEmptyString(form.email) && !CommonValidation.isValidEmail(form.email)) {
     error.email = CommonValidation.INVALID_EMAIL;
   }

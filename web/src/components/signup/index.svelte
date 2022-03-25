@@ -165,7 +165,7 @@
 							text={$t('sys.button.sign up now')}
 							icon="<i class='fas fa-file-signature'>"
 							addClassName="btn-main btn-large"
-							btnType={ButtonType.custom}
+							btnType={ButtonType.login}
 						/>
 						<Error {form} field="error"/>
 					</div>
@@ -248,8 +248,8 @@
 	.container {
 		overflow: auto;
 		font-size: 1.3rem;
-		height: 60%;
-		width: 70%;
+		height: 70%;
+		width: 75%;
 		background-color: rgba(255, 255, 255, 0.99);
 	}
 

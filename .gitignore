@@ -3,6 +3,7 @@
 skyhubv3-api-nodejs-main
 test
 web/node_modules
+web/build
 web/.svelte-kit
 web/yarn.lock
 yarn.clock
