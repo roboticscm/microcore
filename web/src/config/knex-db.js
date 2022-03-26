@@ -9,7 +9,7 @@ export const config = {
       host: dbServer,
       database: 'dev',
       user: 'dev2022',
-      password: 'dev2022'
+      password: 'AaBb123456789@'
     },
     pool: {
       min: 2,
@@ -26,7 +26,7 @@ export const config = {
       host: dbServer,
       database: 'dev',
       user: 'dev2022',
-      password: 'dev2022'
+      password: 'AaBb123456789'
     },
     pool: {
       min: 2,

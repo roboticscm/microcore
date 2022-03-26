@@ -1,4 +1,4 @@
-import Coinpayments from 'coinpayments';
+
 import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
 import { verifyCode } from '$lib/2fa';
@@ -80,8 +80,8 @@ export const post = async ({ request }) => {
     // });
 
     // const client = new Coinpayments({
-    //     key: '33b260c94dd4a5b370eb27f085826f1525981ad6236cbf2ece075b2f10c5e5cf',
-    //     secret: '503da81b80918e858122A31C7453C239Aa477749eAbeEf5Db231644bF39eeebD',
+    //     key: '',
+    //     secret: '',
     // });
     // client.getBasicInfo().then((res) => console.log(res));
     // return {

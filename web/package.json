@@ -28,7 +28,6 @@
     "@types/grecaptcha": "^3.0.4",
     "bower": "^1.8.14",
     "bowser": "^2.11.0",
-    "coinpayments": "^2.2.0",
     "cookie": "^0.4.2",
     "handlebars": "^4.7.7",
     "js-sha256": "^0.9.0",
