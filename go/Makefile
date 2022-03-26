@@ -9,4 +9,4 @@ docker:
 	docker rm -f messaging || true
 	docker image rm -f messaging || true
 	docker build -t messaging -f Dockerfile.multistage .
-	docker run -d --rm  -p 3002:3002 --name messaging  messaging
+	docker run --add-host=host.docker.internal:host-gateway -d --rm  -p 3002:3002 --name messaging  messaging
