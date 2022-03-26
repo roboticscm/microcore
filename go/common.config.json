@@ -4,6 +4,6 @@
     "DBPort": 5432,
     "DBName": "dev",
 	"DBUser": "dev2022",
-    "DBPassword": "dev2022",
+    "DBPassword": "AaBb123456789@",
     "PrivateKey": "Skyhub@010116"
 }
