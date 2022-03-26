@@ -1,5 +1,5 @@
 // Update with your config settings.
-const dbServer = '18.140.147.176';
+const dbServer = 'localhost';
 
 export const config = {
   development: {
