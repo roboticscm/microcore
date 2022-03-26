@@ -20,8 +20,16 @@ docker-build:
 
 docker-run:
 	docker rm -f node-server || true
-	docker run -d --rm --restart unless-stopped \
+	docker run -d --rm \
+	-p 80:3000 \
+	-v "build":/app --name node-server node-server
+
+docker-run-product:
+	docker rm -f node-server || true
+	docker run -d --restart unless-stopped \
 	-p 80:3000 \
 	-v "build":/app --name node-server node-server
 
 docker: docker-build docker-run
+
+docker: docker-build docker-run-product
