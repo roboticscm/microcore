@@ -20,7 +20,7 @@ docker-build:
 
 docker-run:
 	docker rm -f node-server || true
-	docker run -d \
+	docker run -d --rm --restart unless-stopped \
 	-p 80:3000 \
 	-v "build":/app --name node-server node-server
 
