@@ -8,6 +8,7 @@ web/.svelte-kit
 web/yarn.lock
 yarn.clock
 go/build
+go/keys
 web/src/keys
 web/src/config/config.js
 web/src/config/knex-db.js
