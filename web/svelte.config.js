@@ -9,6 +9,11 @@ const config = {
 			
 		}),
 	},
+	paths: {
+		assets: '',
+		base: ''
+	},
+	vite: () => ({})
 };
 
 export default config;

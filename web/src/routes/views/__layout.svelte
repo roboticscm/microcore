@@ -18,13 +18,14 @@
 	import '../../init';
     import Nav from '/src/components/nav/index.svelte'
     import { onMount } from 'svelte';
-    import { config } from '/src/config/server';
+    import { config } from '/src/config/config';
 	import { AppStore } from '/src/store/app';
 	import JsonParseBigInt from 'json-parse-bigint';
 	import { Browser } from '$lib/browser';
-	import { locale } from '$lib/i18n';
+	import { locale, t } from '$lib/i18n';
+	import { App } from "$lib/constants";
 
-    const { notify$ } = AppStore;
+    const { notify$, currentMenu$ } = AppStore;
 
     onMount(() => {
         const defaultLocale = Browser.getLocale();
@@ -37,6 +38,10 @@
     })
 
 </script>
+
+<svelte:head>
+    <title>{App.NAME} - {$t(($currentMenu$||{}).name)}</title>
+</svelte:head>
 
 <main class="main w-100 h-100">
     <section class="main__nav">

@@ -12,7 +12,7 @@ require (
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/echo/v4 v4.1.17
-	github.com/lib/pq v1.0.0
+	github.com/lib/pq v1.10.4
 	github.com/reactivex/rxgo/v2 v2.4.0
 	github.com/stretchr/objx v0.3.0 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect

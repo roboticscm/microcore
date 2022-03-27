@@ -13,6 +13,10 @@
 	import { Store } from './store';
 	import Snackbar from '/src/components/ui/snackbar/index.svelte';
 	import _ from 'lodash';
+	import { goto } from '$app/navigation';
+	import { Browser } from '$lib/browser';
+	import { LoginInfo } from '/src/store/login-info';
+	import { saveToken } from '$lib/local-storage';
 
 	const dispatch = createEventDispatcher();
 	const store = new Store();
@@ -44,14 +48,29 @@
 			return false;
 		}
 		isRunning = true;
+		console.log(Browser.getAgentDesc());
 		store
-			.login(form.data())
+			.login({...form.data(), deviceId: Browser.getBrowserID()})
 			.then(async (res) => {
 				if (res.status > 300) {
 					const err = await res.json();
 					form.errors.errors = form.recordErrors(err.error);
 				} else {
 					snackbarRef.showLoginSuccess();
+					const body = await res.json();
+					
+					LoginInfo.userId = body.loginInfo.userId;
+					LoginInfo.username = body.loginInfo.username;
+					LoginInfo.displayName$.next(body.loginInfo.displayName);
+					LoginInfo.accountAvatar$.next(body.loginInfo.accountAvatar);
+
+					saveToken({
+						remember: true,
+						accessToken: body.accessToken,
+						refreshToken: body.refreshToken,
+					})
+
+					goto('/views/dashboard');
 				}
 			})
 			.catch((err) => {
@@ -220,7 +239,7 @@
 	.container {
 		overflow: auto;
 		font-size: 1.3rem;
-		height: 60%;
+		height: 80%;
 		width: 70%;
 		background-color: rgba(255, 255, 255, 0.99);
 	}

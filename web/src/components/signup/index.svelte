@@ -248,7 +248,7 @@
 	.container {
 		overflow: auto;
 		font-size: 1.3rem;
-		height: 70%;
+		height: 80%;
 		width: 75%;
 		background-color: rgba(255, 255, 255, 0.99);
 	}

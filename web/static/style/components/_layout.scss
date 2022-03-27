@@ -40,17 +40,36 @@
         cursor: pointer;
     }
 
+    &__title {
+        margin-top: $default-spacing;
+    }
+
+    
+
     &__avatar {
         overflow: hidden;
         display: flex;
         align-items: center;
         column-gap: $default-spacing;
-        img {
+        &__locale-changer {
+            position: relative;
+            margin-left:  $default-spacing;
+            width: 24px;
+            margin-top: -30px;
+        }
+
+        &__img, &__text {
             margin-top: $default-spacing;
             border: $default-border;
             height: calc(#{$header-height} - 16px);
             width: calc(#{$header-height} - 16px);
             border-radius: 50%; 
+        }
+
+        &__text {
+            font-size: 1.8rem;
+            line-height: calc(#{$header-height} - 16px);
+            text-align: center;
         }
        
     }

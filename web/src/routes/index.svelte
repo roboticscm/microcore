@@ -1,6 +1,5 @@
 <script context="module">
 	import { loadResource } from '$lib/i18n';
-
 	export const load = async ({ session, fetch }) => {
 		const resourcePromise = loadResource(fetch);
 		await Promise.all([resourcePromise]);
@@ -41,7 +40,7 @@
 	import { onMount } from 'svelte';
 	import LoginForm from '/src/components/login/index.svelte';
 	import SignupForm from '/src/components/signup/index.svelte';
-	import { config } from '/src/config/server';
+	import { config } from '/src/config/config';
 	import { AppStore } from '/src/store/app';
 	import JsonParseBigInt from 'json-parse-bigint';
 	import { Browser } from '$lib/browser';

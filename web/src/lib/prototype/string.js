@@ -90,3 +90,17 @@ String.prototype.countSubString = function (subStr) {
 
   return this.split(subStr).length - 1;
 }
+
+
+String.prototype.createAvatar = function() {
+  if (!this) {
+    return "NO";
+  }
+
+  const split = this.split(' ');
+  if (split.length > 1) {
+    return (split[0].substring(0, 1) + split[split.length - 1].substring(0, 1)).toUpperCase();
+  } else {
+    return split[0].substring(0, 1).toUpperCase();
+  }
+}

@@ -5,4 +5,11 @@ export class AuthService {
             body: JSON.stringify(param)
         })
     }
+
+    static logout = async (param) => {
+        return fetch('/api/auth/logout', {
+            method: 'post',
+            body: JSON.stringify(param)
+        })
+    }
 }

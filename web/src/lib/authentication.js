@@ -1,14 +1,20 @@
 
-// import { LoginInfo } from 'src/store/login-info';
+import { LoginInfo } from '/src/store/login-info';
 import { Browser } from './browser';
+import { clearToken } from './local-storage';
+import { config } from '/src/config/config';
+
+
 // import { MenuStore } from 'src/system/menu/store';
-
-
-
-
 export let defaultHeader = {};
 
 let screenLocked = false;
+
+
+export const logout = () => {
+  clearToken();
+  LoginInfo.reset();
+}
 
 export class Authentication {
   // static logout = () => {

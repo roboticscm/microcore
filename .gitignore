@@ -8,4 +8,8 @@ web/.svelte-kit
 web/yarn.lock
 yarn.clock
 go/build
+web/src/keys
+web/src/config/config.js
+go/common.config.json
+web/static/keys/
 

@@ -85,12 +85,12 @@ export const del = async (req, res, tableName, whereBuilder) => {
 export const upsert = async (userId, tableName, payload, conditionCallback) => {
     const knex = getKnexInstance();
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         const k= knex(tableName);
         if(payload.id && conditionCallback) {
             k.where((builder) => {
                 conditionCallback(builder);
-            }).update({ ...payload, ...updateSystemFields(userId) })
+            }).update({ ...payload, ...await updateSystemFields(userId) })
             .then((updatedRows) => {
                 if (!updatedRows) {
                     knex(tableName).returning('*').insert({
@@ -134,7 +134,7 @@ export const save = async (req, res, tableName, insertPayload) => {
             ...createSystemFields(userId)
         }).then((ret) => {
             resolve(ret[0]);
-        }).catch((err) => error400(res, err))
+        }).catch((err) => reject(err))
         .finally(() => {
             knex.destroy();
         })
@@ -146,10 +146,10 @@ export const save = async (req, res, tableName, insertPayload) => {
 export const update = async (userId, tableName, payload, conditionCallback) => {
     const knex = getKnexInstance();
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         knex(tableName).where((builder) => {
             conditionCallback(builder);
-        }).update({ ...payload, ...updateSystemFields(userId) })
+        }).update({ ...payload, ...await updateSystemFields(userId) })
         .then((ret) => {
             resolve({
                 message: ret
@@ -161,12 +161,4 @@ export const update = async (userId, tableName, payload, conditionCallback) => {
         });
         
     });
-}
-
-export const registerPgNotify = async () => {
-    const knex = getKnexInstance();
-    return new Promise((resolve, reject) => {
-        knex.destroy();
-    });
-    
 }

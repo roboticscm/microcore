@@ -1,9 +1,0 @@
-{
-    "ServerPort": 3002,
-	"DBServer": "host.docker.internal",
-    "DBPort": 5432,
-    "DBName": "dev",
-	"DBUser": "dev2022",
-    "DBPassword": "AaBb123456789@",
-    "PrivateKey": "Skyhub@010116"
-}
