@@ -40,4 +40,7 @@ run:
 	yarn
 	yarn build
 	cp -r ./src/keys ./build/static
-	pm2 start ./build/index.js
+	pm2 start --name microcore ./build/index.js 
+
+stop:
+	pm2 stop microcore 
