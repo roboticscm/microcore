@@ -7,14 +7,14 @@ import { replaceToken, encodePassword } from '$lib/encode';
 import { restError, restOk } from '$lib/rest';
 import { vilidateLogin } from './validation';
 import { objectIsEmpty } from '$lib/object';
-import { generateToken, PRIVATE_KEY } from '/src/hooks';
-import { getKnexInstance, createSystemFields } from '$lib/db/util';
+import { generateToken, extractDeviceDesc } from '/src/hooks';
+import { getKnexInstance } from '$lib/db/util';
 
 // Login
 export const post = async ({ request }) => {
     try {
-
         const body = await request.json();
+
         //validate
         const error = vilidateLogin(body);
 
@@ -36,29 +36,27 @@ export const post = async ({ request }) => {
             const password = encodePassword(`${record.id}.${record.createdAt}.${body.password}`);
             if (password === record.password) {
                 // generate token access token
-                const accessToken = generateToken(PRIVATE_KEY, false, { userId: record.id, username: body.username })
+                const accessToken = generateToken(false, { userId: record.id, username: body.username })
                 // generate refresh access token
-                const refreshToken = generateToken(PRIVATE_KEY, false, { userId: record.id, username: body.username })
-
+                const refreshToken = generateToken(false, { userId: record.id, username: body.username })
                 // save refresh token and login detail
-                body.deviceDesc = body.deviceDesc || 'unknown'
-                const deleteOldRefreshTokenCond = (builder) => builder.where({ partnerId: record.id, device: body.deviceDesc })
+                const deviceDesc = extractDeviceDesc(request);
+                const deleteOldRefreshTokenCond = (builder) => builder.where({ createdBy: record.id, device: deviceDesc })
                 const refreshTokenPayload = {
-                    partnerId: record.id,
+                    createdBy: record.id,
                     token: refreshToken,
-                    device: body.deviceDesc 
+                    device: deviceDesc 
                 }
 
-                const ip = await getPublicIp();
                 const loginDetailPayload = {
-                    partnerId: record.id,
-                    device: body.deviceDesc,
+                    createdBy: record.id,
+                    device: deviceDesc,
                     type: 'LOGIN',
-                    ip
+                    ip: body.ip || '',
                 }
 
                 try {
-                    saveRefreshTokenAndLoginDetail(record.id, deleteOldRefreshTokenCond, refreshTokenPayload, loginDetailPayload);
+                    saveRefreshTokenAndLoginDetail(deleteOldRefreshTokenCond, refreshTokenPayload, loginDetailPayload);
                     const res = {
                         accessToken: replaceToken(accessToken, body.deviceId),
                         refreshToken: replaceToken(refreshToken, body.deviceId),
@@ -122,12 +120,7 @@ export const post = async ({ request }) => {
     // };
 }
 
-export const getPublicIp = async () => {
-   const res = await fetch('https://api.ipify.org?format=json');
-   return (await res.json()).ip;
-}
-
-const saveRefreshTokenAndLoginDetail = (userId, deleteOldRefreshTokenCond, refreshPayload, loginDetailPayload) => {
+const saveRefreshTokenAndLoginDetail = (deleteOldRefreshTokenCond, refreshPayload, loginDetailPayload) => {
     const knex = getKnexInstance();
     return new Promise((resolve, reject) => {
         knex.transaction((t) => {
@@ -139,11 +132,11 @@ const saveRefreshTokenAndLoginDetail = (userId, deleteOldRefreshTokenCond, refre
                 .delete().then(() => {
                     return knex('refresh_token')
                         .transacting(t)
-                        .insert({...refreshPayload, ...createSystemFields(userId)})
+                        .insert(refreshPayload)
                 })
                 .then((res) => {
                     return knex('login_detail')
-                        .insert({...loginDetailPayload, ...createSystemFields(userId) });
+                        .insert(loginDetailPayload);
                 })
                 .then(t.commit)
                 .catch((err) => {

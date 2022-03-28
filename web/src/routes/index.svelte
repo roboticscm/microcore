@@ -71,6 +71,7 @@
 	};
 
 	onMount(() => {
+		Browser.getAgentDesc();
 		const defaultLocale = Browser.getLocale();
 		AppStore.locale$.next(defaultLocale);
 		$locale = defaultLocale;

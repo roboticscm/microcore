@@ -17,6 +17,8 @@
 	import { Browser } from '$lib/browser';
 	import { LoginInfo } from '/src/store/login-info';
 	import { saveToken } from '$lib/local-storage';
+	import { getPublicIp } from '$lib/util';
+
 
 	const dispatch = createEventDispatcher();
 	const store = new Store();
@@ -26,9 +28,11 @@
 	let form = resetForm();
 	let isRunning = false;
 	let snackbarRef, usernameRef;
+	let publicIp;
 
-	onMount(() => {
+	onMount(async () => {
 		loaded = true;
+		publicIp = await getPublicIp();
 		setTimeout(() => {
 			usernameRef && usernameRef.focus();
 		}, 300);
@@ -43,14 +47,13 @@
 		return true;
 	};
 
-	const doLogin = () => {
+	const doLogin = async () => {
 		if (!validateForm()) {
 			return false;
 		}
 		isRunning = true;
-		console.log(Browser.getAgentDesc());
 		store
-			.login({...form.data(), deviceId: Browser.getBrowserID()})
+			.login({...form.data(), ip: publicIp, deviceId: Browser.getBrowserID()})
 			.then(async (res) => {
 				if (res.status > 300) {
 					const err = await res.json();

@@ -21,21 +21,25 @@
     import { config } from '/src/config/config';
 	import { AppStore } from '/src/store/app';
 	import JsonParseBigInt from 'json-parse-bigint';
-	import { Browser } from '$lib/browser';
-	import { locale, t } from '$lib/i18n';
+	import { t } from '$lib/i18n';
 	import { App } from "$lib/constants";
+	import { SettingService } from '/src/services/setting';
 
     const { notify$, currentMenu$ } = AppStore;
 
     onMount(() => {
-        const defaultLocale = Browser.getLocale();
-		AppStore.locale$.next(defaultLocale);
-		$locale = defaultLocale;
 		const evtSource = new EventSource(`${config.messagingServer}/notify`);
 		evtSource.onmessage = (event) => {
 			notify$.next(JsonParseBigInt(event.data));
 		};
     })
+
+	const reloadSettings = () => {
+		SettingService.getInitialUserSetting().then((res) => {
+			console.log(res);
+		});
+	}
+	reloadSettings();
 
 </script>
 

@@ -1,5 +1,5 @@
 import Bowser from 'bowser';
-import MobileDetect from 'mobile-detect';
+import UAParser from 'ua-parser-js';
 export class Browser {
   static isSafari() {
     return Browser.getBrowser() === 'Safari';
@@ -16,7 +16,7 @@ export class Browser {
   }
 
   static getLocale() {
-   return (window.navigator.userLanguage || window.navigator.language || 'en').split('-')[0];
+    return (window.navigator.userLanguage || window.navigator.language || 'en').split('-')[0];
   }
 
   static getBrowser() {
@@ -37,9 +37,10 @@ export class Browser {
     return guid;
   };
 
-  static getAgentDesc = () => {
-    const md = new MobileDetect(window.navigator.userAgent);
-
-    return md;
+  static getAgentDesc = (ua) => {
+    const parse = new UAParser (ua);
+    const result = parse.getResult();
+    const desc = `${result.device.type || 'PC/Laptop'} - ${result.os.name} ${result.os.version} - ${result.browser.name} ${result.browser.version}` 
+    return desc;
   }
 }

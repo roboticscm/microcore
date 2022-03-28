@@ -1,19 +1,51 @@
-
-import speakeasy from 'speakeasy';
-import qrcode from 'qrcode';
-import { verifyCode } from '$lib/2fa';
-import { query } from '$lib/db/template';
-import { replaceToken, encodePassword } from '$lib/encode';
 import { restError, restOk } from '$lib/rest';
+import { getKnexInstance } from '$lib/db/util';
+import { verifyToken, extractDeviceDesc } from '/src/hooks';
 
 export const post = async ({ request }) => {
     try {
-        const body = await request.json();   
-        console.log(body)
-        //write login / logout detail
-        //delete refresh token
+        const body = await request.json();
+        const payload = await verifyToken(body.refreshToken, body.deviceId);
+        //write login / logout detail and delete refresh token
+        const deviceDesc = extractDeviceDesc(request);
+        const loginDetailPayload = {
+            createdBy: payload.userId,
+            device: deviceDesc,
+            type: 'LOGOUT',
+            ip: body.ip || '',
+        }
+        const deleteRefreshTokenCond = (builder) => builder.where({ createdBy: payload.userId, device: deviceDesc })
+        saveLogoutDetailAndDeleteRefreshToken(loginDetailPayload, deleteRefreshTokenCond);
+
         return restOk({})
     } catch (err) {
-        restError({unknownError: 'sys.msg.logout failed'}, 422, err)
+        restError({ unknownError: 'sys.msg.logout failed' }, 422, err)
     }
+}
+
+const saveLogoutDetailAndDeleteRefreshToken = (loginDetailPayload, deleteCond) => {
+    const knex = getKnexInstance();
+    return new Promise((resolve, reject) => {
+        knex.transaction((t) => {
+            return knex('login_detail')
+                .transacting(t)
+                .insert(loginDetailPayload)
+                .then(() => {
+                    return knex('refresh_token')
+                        .transacting(t)
+                        .where((builder) => deleteCond(builder))
+                        .delete()
+                })
+                .then(t.commit)
+                .catch((err) => {
+                    t.rollback();
+                    reject(err)
+                });
+        }).then((res) => {
+            resolve(res);
+        }).catch((err) => reject(err))
+            .finally(() => {
+                knex.destroy();
+            })
+    });
 }

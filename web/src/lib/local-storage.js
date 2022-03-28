@@ -28,3 +28,10 @@ export const clearToken = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
 }
+
+export const buildHeader = () => {
+    return {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getToken(true).accessToken}`,
+    }
+}

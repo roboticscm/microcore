@@ -12,3 +12,13 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjkzNzc2MDc2M
     "deviceId": "xxxxx"
 }
 
+###
+POST http://localhost/api/auth/logout
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyODAxNjY4Mjk3MzMyODg1NzM1IiwidXNlcm5hbWUiOiJraGFpLmx2IiwiZXhwIjoxNjU0NDE5MDEzLCJpYXQiOjE2NDg0MTkwMTN9.PwwPefSLjMI1Ctcev4_pFWoduxq-0_-S4i0K_Q7tZQYJKTa0aQPZXlHSkbrlz_t0nDVxjiVjrGydHhuCJZr5OtVfRbjE0aIf8Yvv_4FNOUBI7S4z5CJotuP23kTMRBAZ0vDL_WiLREPjqQcxeOqiDTxE4qkwGrI9687RXsNzYtU
+
+{
+    "refreshToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyODAxNjY4Mjk3MzMyODg1NzM1IiwidXNlcm5hbWUiOiJraGFpLmx2IiwiZXhwIjoxNjU0NDE5MDEzLCJpYXQiOjE2NDg0MTkwMTN9.PwwPefSLjMI1Ctcev4_pFWoduxq-0_-S4i0K_Q7tZQYJKTa0aQPZXlHSkbrlz_t0nDVxjiVjrGydHhuCJZr5OtVfRbjE0aIf8Yvv_4FNOUBI7S4z5CJotuP23kTMRBAZ0vDL_WiLREPjqQcxeOqiDTxE4qkwGrI9687RXsNzYtU",
+    "ip": "1.52.204.129",
+    "deviceId": "xxxxx"
+}

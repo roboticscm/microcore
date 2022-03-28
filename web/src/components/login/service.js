@@ -1,15 +1,11 @@
+import { post } from "$lib/http"
+
 export class AuthService {
     static login = async (param) => {
-        return fetch('/api/auth/login', {
-            method: 'post',
-            body: JSON.stringify(param)
-        })
+        return post('/api/auth/login', param);
     }
 
     static logout = async (param) => {
-        return fetch('/api/auth/logout', {
-            method: 'post',
-            body: JSON.stringify(param)
-        })
+        return post('/api/auth/logout', param)
     }
 }

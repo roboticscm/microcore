@@ -11,6 +11,8 @@
 	import { logout } from '$lib/authentication';
 	import { AuthService } from '../login/service';
 	import { getToken } from '$lib/local-storage';
+	import { getPublicIp } from '$lib/util'
+	import { Browser } from '$lib/browser';
 
 	const { accountAvatar$, displayName$ } = LoginInfo;
 	const { currentMenu$ } = AppStore;
@@ -19,6 +21,8 @@
 
 	let activeMenuId;
 	let dropdownRef;
+	let publicIp;
+
 	const menuList = [
 		{ code: 'separator' },
 		{ code: 'dashboard', icon: '<i class="fas fa-chart-bar"></i>', name: 'sys.menu.dashboard', path: '/dashboard' },
@@ -54,6 +58,7 @@
 			case 'logout':
 				AuthService.logout({
 					refreshToken: getToken(true).refreshToken,
+					ip: publicIp,
 				}).finally(() => {
 					logout();
 				})
@@ -73,7 +78,8 @@
         }
     }
 
-	onMount(() => {
+	onMount(async () => {
+		publicIp = await getPublicIp();
 		document.addEventListener('click', onDocumentClick);
 		return () => {
 			document.removeEventListener('click', onDocumentClick);
