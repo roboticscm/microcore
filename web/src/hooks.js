@@ -5,11 +5,15 @@ import { config } from '/src/config/config';
 
 const fullPath = import.meta.url;
 let path
+
+///opt/devzone/microcore/web/build/server/chunks/hooks-874d60df.js
+// open '/opt/devzone/microcore/web/buildkeys/app.rsa'
+
 console.log('fullPath ', fullPath)
 if (fullPath.includes('.svelte-kit')) {
   path = fullPath.split('.svelte-kit')[0].split('///')[1] + 'build/static/';
 } else if (fullPath.includes('/server/chunks/')) {
-  path = fullPath.split('/server/chunks/')[0].split('///')[1];
+  path = fullPath.split('/server/chunks/')[0].split('///')[1] + '/static/';
 } else {
   path = fullPath.split('hooks.js')[0].split('///')[1];
 }
