@@ -13,8 +13,8 @@ if (fullPaht.includes('.svelte-kit')) {
   path = fullPaht.split('hooks.js')[0].split('///')[1];
 }
 
-export const PRIVATE_KEY = readFileSync(`${path}keys/app.rsa`)
-export const PUBLIC_KEY = readFileSync(`${path}keys/app.rsa.pub`);
+export const PRIVATE_KEY = readFileSync(`/${path}keys/app.rsa`)
+export const PUBLIC_KEY = readFileSync(`/${path}keys/app.rsa.pub`);
 
 export const generateToken = (isRefreshToken, payload) => {
   try {
