@@ -3,14 +3,15 @@ import { readFileSync } from 'fs';
 import jwt from 'jsonwebtoken';
 import { config } from '/src/config/config';
 
-const fullPaht = import.meta.url;
+const fullPath = import.meta.url;
 let path
-if (fullPaht.includes('.svelte-kit')) {
-  path = fullPaht.split('.svelte-kit')[0].split('///')[1] + 'build/static/';
-} else if (fullPaht.includes('/server/chunks/')) {
-  path = fullPaht.split('/server/chunks/')[0].split('///')[1];
+console.log('fullPath ', fullPath)
+if (fullPath.includes('.svelte-kit')) {
+  path = fullPath.split('.svelte-kit')[0].split('///')[1] + 'build/static/';
+} else if (fullPath.includes('/server/chunks/')) {
+  path = fullPath.split('/server/chunks/')[0].split('///')[1];
 } else {
-  path = fullPaht.split('hooks.js')[0].split('///')[1];
+  path = fullPath.split('hooks.js')[0].split('///')[1];
 }
 
 export const PRIVATE_KEY = readFileSync(`/${path}keys/app.rsa`)
