@@ -75,8 +75,8 @@
 					LoginInfo.accountAvatar$.next(body.loginInfo.accountAvatar);
 					//TODO
 					localStorage.setItem('userId', body.loginInfo.userId);
-					localStorage.setItem('username', body.loginInfo.username);
-					localStorage.setItem('displayName', body.loginInfo.displayName);
+					localStorage.setItem('username', body.loginInfo.username );
+					localStorage.setItem('displayName', body.loginInfo.displayName || '');
 					
 					saveToken({
 						remember: true,

@@ -46,7 +46,7 @@ const formatKey = (key) => {
 }
 
 export const t = derived(locale, (l) => (key, vars = {}) => {
-  return translate(l, key, vars)
+  return translate(l || 'en', key, vars)
 });
 
 
@@ -55,4 +55,5 @@ export const loadResource = async (fetch) => {
   const data = await res.json();
   AppStore.resources$.next(data);
   updateResource();
+  return;
 };

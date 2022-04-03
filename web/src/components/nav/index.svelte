@@ -12,7 +12,7 @@
 	import { getToken } from '$lib/local-storage';
 	import { getPublicIp } from '$lib/util'
 
-	const { accountAvatar$, displayName$, currentMenu$ } = LoginInfo;
+	const { accountAvatar$, displayName$, username$, currentMenu$ } = LoginInfo;
 
 	const menuUuidClass = genUUID();
 
@@ -37,7 +37,7 @@
 
 	let accountAvatar;
 	$: if($accountAvatar$) {
-		accountAvatar = $accountAvatar$;
+		accountAvatar = $accountAvatar$ || '';
 		if(!accountAvatar.startsWith('data:image/')) {
 			accountAvatar = 'data:image/png;base64,' + accountAvatar
 		}
@@ -92,15 +92,15 @@
 	
 	<div class="nav__avatar">
 		<div class="nav__avatar__locale-changer center-box">
-			<Locale/>
+			<Locale saveDb = { false } />
 		</div>
 
 		{#if accountAvatar}
-			<img title={LoginInfo.username} class="nav__avatar__img" src="{accountAvatar}" alt="Avt" />
+			<img title={$username$} class="nav__avatar__img" src="{accountAvatar}" alt="Avt" />
 		{:else if ($displayName$)}
-			<div title={LoginInfo.username} class="nav__avatar__text">{($displayName$||'').createAvatar()}</div>
+			<div title={$username$} class="nav__avatar__text">{($displayName$||'').createAvatar()}</div>
 		{:else}
-			<img title={LoginInfo.username} class="nav__avatar__img" src="/images/camera.png" alt="Avt" />
+			<img title={$username$} class="nav__avatar__img" src="/images/camera.png" alt="Avt" />
 		{/if}
 	</div>
 	

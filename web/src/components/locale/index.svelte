@@ -29,14 +29,17 @@
 	};
 
 	onMount(() => {
-		if(saveDb) {
+		loadResource(fetch).then(() => {
+			if(saveDb) {
 			// TODO load db
-		} else {
-			const savedLocale = localStorage.getItem('locale');
-			if(savedLocale) {
-				$locale = savedLocale;
+			} else {
+				const savedLocale = localStorage.getItem('locale');
+				if(savedLocale) {
+					$locale = savedLocale;
+				}
 			}
-		}
+		});
+		
 
 		const subscription = notify$.subscribe(async (res) => {
 			if(res && res.table === 'resource') {
