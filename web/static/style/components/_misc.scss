@@ -79,7 +79,17 @@
     display: block;
 }
 
+.card-list {
+    column-gap: $large-spacing;
+    row-gap: $large-spacing; 
+}
+
 @media screen and (max-width: 1024px) {
+    .card-list {
+        column-gap: 0px; 
+        row-gap: 4px; 
+    }
+    
     .form-avatar img {
         // border-radius: 50%;
         // border: $default-border;

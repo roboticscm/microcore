@@ -57,7 +57,13 @@
         
     </section>
     
-    <section style="padding-top: 6px;" class="main__content">
-        <slot></slot>
+    <section style="padding-top: 6px;" class="main__body">
+		<div class="main__body__left">
+			<Nav embedMode = {true} ></Nav>
+		</div>
+		<div class="main__body__center">
+        	<slot></slot>
+		</div>
+		<div class="main__body__right">Link</div>
     </section>
 </main>

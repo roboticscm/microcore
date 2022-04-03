@@ -6,7 +6,7 @@
     background: var(--menu-background);
     color: var(--menu-color);
     height: calc(100% - #{$header-height} + #{$default-spacing});
-    width: 220px;
+    width: 196px;
     &__header {
         display: flex;
         flex-direction: column;

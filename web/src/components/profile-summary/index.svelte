@@ -32,7 +32,7 @@
 </script>
 
 {#if loaded}
-    <div class="row" style="column-gap: 0px; row-gap: 6px;">
+    <div class="row card-list" style="row-gap: 6px;">
         <div class="col-xs-12 col-md-6">
             <Card
                 title={$t('sys.label.active package value')}
@@ -77,3 +77,4 @@
         <hr />
     </div>
 {/if}
+

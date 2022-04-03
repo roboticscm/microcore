@@ -37,11 +37,11 @@
 	<ProfileSummary></ProfileSummary>
 
 	<div class="row">
-		<div class="col-xs-24 col-lg-11">
+		<div class="col-xs-24 col-lg-12">
 			<div class="sub-title">{$t('sys.label.my profile')}</div>
 			<form>
 				<div class="row">
-					<div class="col-xs-24 col-lg-5">
+					<div class="col-xs-24 col-lg-6">
 						<div style="margin-left: 6px; margin-top: 6px; display: flex; justify-content: center; ">
 							<div  style="min-width: 172px; width: 172px; height: 172px;">
 								<ImagePicker/>
@@ -49,7 +49,7 @@
 						</div>
 					</div>
 
-					<div class="col-xs-24 col-lg-19">
+					<div class="col-xs-24 col-lg-18">
 						<div class="row">
 							<div class="col-xs-24 col-lg-12">
 								<TextInput
@@ -126,7 +126,7 @@
 			</form>
 		</div>
 
-		<div class="col-2 center-box">
+		<div class="col-1 center-box">
 			<div class="w-100 h-100 vertical-line">
 
 			</div>

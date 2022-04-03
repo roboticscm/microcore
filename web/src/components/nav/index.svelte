@@ -10,7 +10,9 @@
 	import { logout } from '$lib/authentication';
 	import { AuthService } from '../login/service';
 	import { getToken } from '$lib/local-storage';
-	import { getPublicIp } from '$lib/util'
+	import { getPublicIp } from '$lib/util';
+
+	export let embedMode = false;
 
 	const { accountAvatar$, displayName$, username$, currentMenu$ } = LoginInfo;
 
@@ -84,29 +86,36 @@
 	});
 </script>
 
-<div class="nav" >
-	<div class="nav__menu {menuUuidClass}" on:click={() => Dropdown.toggle(dropdownRef)}>
-		<i class="fa fa-bars" />
-	</div>
-	<div class="nav__title">{@html $t($currentMenu$.name)}</div>
-	
-	<div class="nav__avatar">
-		<div class="nav__avatar__locale-changer center-box">
-			<Locale saveDb = { false } />
+{#if !embedMode}
+	<div class="nav" >
+		<div class="nav__logo">
+			Logo
 		</div>
 
-		{#if accountAvatar}
-			<img title={$username$} class="nav__avatar__img" src="{accountAvatar}" alt="Avt" />
-		{:else if ($displayName$)}
-			<div title={$username$} class="nav__avatar__text">{($displayName$||'').createAvatar()}</div>
-		{:else}
-			<img title={$username$} class="nav__avatar__img" src="/images/camera.png" alt="Avt" />
-		{/if}
-	</div>
-	
-</div>
+		<div class="nav__menu {menuUuidClass}" on:click={() => Dropdown.toggle(dropdownRef)}>
+			<i class="fa fa-bars" />
+		</div>
 
-<div bind:this={dropdownRef} class="dropdown">
+		<div class="nav__title">{@html $t($currentMenu$.name)}</div>
+		
+		<div class="nav__avatar">
+			<div class="nav__avatar__locale-changer center-box">
+				<Locale saveDb = { false } />
+			</div>
+
+			{#if accountAvatar}
+				<img title={$username$} class="nav__avatar__img" src="{accountAvatar}" alt="Avt" />
+			{:else if ($displayName$)}
+				<div title={$username$} class="nav__avatar__text">{($displayName$||'').createAvatar()}</div>
+			{:else}
+				<img title={$username$} class="nav__avatar__img" src="/images/camera.png" alt="Avt" />
+			{/if}
+		</div>
+		
+	</div>
+{/if}
+
+<div bind:this={dropdownRef} class="{embedMode ? '' : 'dropdown'}">
 	<div class="dropdown__header">
 		<div class="dropdown__header__avatar">
 			{#if accountAvatar}
@@ -137,3 +146,4 @@
 		{/each}
 	{/if}
 </div>
+
