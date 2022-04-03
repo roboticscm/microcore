@@ -20,7 +20,8 @@ export const post = async ({ request }) => {
 
         return restOkWithHeader({}, setCookieHeader('', false));
     } catch (err) {
-        restError({ unknownError: 'sys.msg.logout failed' }, 422, err)
+        return restOkWithHeader({}, setCookieHeader('', false));
+        // restError({ unknownError: 'sys.msg.logout failed' }, 422, err)
     }
 }
 
