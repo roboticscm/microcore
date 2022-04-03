@@ -36,7 +36,7 @@ export const setCookieHeader = (id, secure, set = true) => {
         path: '/',
         httpOnly: true,
         sameSite: 'strict',
-        secure,
+        // secure,
         maxAge: 60 * 60 * 24 * 7, // one week
       }),
     }
