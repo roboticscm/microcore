@@ -10,14 +10,24 @@
 	import { Partner } from './types';
 	import { validate } from './validation';
 	import Error from '/src/components/ui/error/index.svelte';
-	import { Store } from './store'
+	import { Store } from './store';
 	import Snackbar from '/src/components/ui/snackbar/index.svelte';
 	import _ from 'lodash';
+	import { config } from '/src/config/config';
+	import { goto } from '$app/navigation';
+
+	export let refId = '';
 
 	const dispatch = createEventDispatcher();
 	const store = new Store();
 
-	const resetForm = () => new Form(new Partner());
+	const resetForm = () => {
+		const f = new Form(new Partner());
+		if(refId) {
+			f.referralId = refId;
+		}
+		return f;
+	}
 	let loaded = false;
 	let form = resetForm();
 	let isRunning = false;
@@ -44,30 +54,41 @@
 			return false;
 		}
 		isRunning = true;
-		store.signUp(form.data()).then(async (res) => {
-			if(res.status > 300) {
-				const err = await res.json();
-				form.errors.errors = form.recordErrors(err.error)
-			} else {
-				snackbarRef.showSaveSuccess();
-			}
-			
-		}).catch((err) => {
-			console.log(err)
-			snackbarRef.showUnknownError(_.isString(err) ? $t(err) : $t(err.unknownError))
-			
-		}).finally(() => isRunning = false);
+		store
+			.signUp(form.data())
+			.then(async (res) => {
+				if (res.status > 400) {
+					const err = await res.json();
+					if (err.unknownError) {
+						snackbarRef.showUnknownError($t(err.unknownError));
+					} else {
+						form.errors.errors = form.recordErrors(err.error);
+					}
+				} else {
+					snackbarRef.showSignupSuccess();
+					setTimeout(() => {
+						sessionStorage.setItem('currentPage', 'LOGIN')
+						location.href="/"
+					}, 3000);
+				}
+			})
+			.catch((err) => {
+				snackbarRef.showUnknownError(_.isString(err) ? $t(err) : $t(err.unknownError));
+			})
+			.finally(() => (isRunning = false));
 	};
 </script>
 
-<Snackbar bind:this={snackbarRef}/>
+<Snackbar bind:this={snackbarRef} />
 
 <svelte:head>
 	<title>{$t('sys.label.sign up')}</title>
 </svelte:head>
 {#if loaded}
-	<form novalidate on:submit|preventDefault
-		class="w-100 h-100 center-box login-background default-radius-border"
+	<form
+		novalidate
+		on:submit|preventDefault
+		class="w-100 h-100 center-box default-radius-border"
 		on:keydown={(event) => {
 			form.errors.clear(event.target.name);
 			form.errors.errors = {};
@@ -82,7 +103,7 @@
 				<div class="center-text large-padding title-text">
 					{$t('sys.label.welcome')}
 				</div>
-				<div class="center-text large-padding avatar">
+				<div class="center-text large-padding form-avatar">
 					<img src="/images/logo.png" class="logo" alt="Logo" />
 				</div>
 			</div>
@@ -98,7 +119,6 @@
 					<div>
 						<TextInput
 							bind:this={usernameRef}
-							style="font-size: 1.3rem;"
 							type="search"
 							showSuffixIcon={true}
 							suffixIcon="<i class='far fa-id-badge'>"
@@ -107,24 +127,22 @@
 							label={$t('sys.label.username')}
 							placeholder={$t('sys.label.type your username')}
 						/>
-						<Error {form} field="username"/>
+						<Error {form} field="username" />
 					</div>
 					<div style="padding-top: 16px;">
 						<TextInput
-							style="font-size: 1.3rem;"
 							type="search"
 							showSuffixIcon={true}
-							suffixIcon="<i class='far fa-id-badge'>"
+							suffixIcon="<i class='fa fa-envelope' aria-hidden='true'></i>"
 							name="email"
 							bind:value={form.email}
 							label={$t('sys.label.email')}
 							placeholder={$t('sys.label.type your email to activate the account')}
 						/>
-						<Error {form} field="email"/>
+						<Error {form} field="email" />
 					</div>
 					<div style="padding-top: 16px;">
 						<TextInput
-							style="font-size: 1.3rem;"
 							showSuffixIcon={true}
 							suffixIcon="<i class='fas fa-key'>"
 							name="password"
@@ -133,12 +151,11 @@
 							label={$t('sys.label.password')}
 							placeholder={$t('sys.label.enter your password')}
 						/>
-						<Error {form} field="password"/>
+						<Error {form} field="password" replaceParams={[config.minPasswordLength]} />
 					</div>
 
 					<div style="padding-top: 16px;">
 						<TextInput
-							style="font-size: 1.3rem;"
 							showSuffixIcon={true}
 							suffixIcon="<i class='fas fa-key'>"
 							name="confirmPassword"
@@ -147,18 +164,22 @@
 							label={$t('sys.label.confirm password')}
 							placeholder={$t('sys.label.retype your password')}
 						/>
-						<Error {form} field="confirmPassword"/>
+						<Error {form} field="confirmPassword" />
 					</div>
 
 					<div class="right-box nowrap" style="padding-top: 26px;">
 						{$t('sys.label.referral code')}:{@html App.SPACE_CODE}
-						<input style="width: 190px;" bind:value={form.referralId} class="form-control" />
+						<input name="referralId" style="width: 160px;" bind:value={form.referralId} class="form-control" />
 					</div>
+					<div class="right-box">
+						<Error {form} field="referralId" />
+					</div>
+					
 
 					<div class="center-box">
 						<Button
-							disabled = {form.errors.any()}
-							running = { isRunning }
+							disabled={form.errors.any()}
+							running={isRunning}
 							on:click={doSignUp}
 							style="width: 80%; margin-top: 30px;"
 							type="submit"
@@ -167,18 +188,18 @@
 							addClassName="btn-main btn-large"
 							btnType={ButtonType.login}
 						/>
-						<Error {form} field="error"/>
+						<Error {form} field="error" />
 					</div>
 				</div>
 
 				<div>
 					<div class="center-box" style="padding-top: 50px;">
-						{$t('sys.label.back to')}
+						{$t('sys.label.or back to')}
 					</div>
 					<div class="center-box">
 						<Button
-							on:click={() => dispatch('changeMode', { signupMode: false })}
-							style="width: 50%; margin-top: 10px;"
+							on:click={() => {dispatch('changeMode', { mode: 'LOGIN' }); goto ('/');}}
+							style="width: 60%; margin-top: 10px;"
 							type="button"
 							btnType={ButtonType.login}
 						/>
@@ -194,63 +215,13 @@
 {/if}
 
 <style lang="scss">
-	input {
-		font-size: 1.3rem;
-	}
-	.login-background {
-		background-image: url('/images/login-background.png');
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: cover;
-		opacity: 0.9;
-	}
-	.load-screen {
-		background: #000;
-		opacity: 0.8;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		height: 100%;
-		text-align: center;
-	}
-
-	.loading {
-		color: #fff;
-		margin: 0 auto;
-	}
-
 	.login-title {
 		display: block;
-	}
-
-	.welcome {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-
-		&::after {
-			position: absolute;
-			content: '';
-			height: 90%;
-			width: 2px;
-			right: 0;
-			background: var(--border-light-color);
-		}
 	}
 
 	.logo {
 		width: 200px;
 		height: 200px;
-	}
-
-	.container {
-		overflow: auto;
-		font-size: 1.3rem;
-		height: 80%;
-		width: 75%;
-		background-color: rgba(255, 255, 255, 0.99);
 	}
 
 	@media screen and (max-width: 1024px) {
@@ -259,6 +230,7 @@
 		}
 
 		.welcome {
+			max-height: 150px;
 			justify-content: flex-start;
 			&::after {
 				display: none;
@@ -282,6 +254,7 @@
 		}
 
 		.welcome {
+			max-height: 150px;
 			justify-content: flex-start;
 		}
 

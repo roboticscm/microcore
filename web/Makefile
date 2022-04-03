@@ -35,12 +35,9 @@ docker: docker-build docker-run
 docker: docker-build docker-run-product
 
 run:
-	mkdir -p ./build/static
-	cp -r ./src/keys ./build/static
 	yarn
 	yarn build
-	cp -r ./src/keys ./build/static
-	pm2 start --name microcore ./build/index.js 
+	pm2 start -f --name microcore ./build/index.js 
 
 stop:
 	pm2 stop microcore 

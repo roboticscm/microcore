@@ -31,7 +31,7 @@ export class CommonValidation {
     return source.trim().length === 0;
   }
 
-  static MIN_LENGTH = 'SYS.MSG.VALUE_MUST_BE_AT_LEAST_%min%_CHARS';
+  static MIN_LENGTH = 'sys.msg.value must be at least {} chars length';
   static isMinLength(source, min) {
     if (!source) {
       return false;
@@ -48,7 +48,7 @@ export class CommonValidation {
     return source.trim().length >= min && source.trim().length <= max;
   }
 
-  static INTEGER_NUMBER = 'SYS.MSG.REQUIRED_INTEGER_NUMBER';
+  static INTEGER_NUMBER = 'SYS.MSG.REQUIRED INTEGER NUMBER';
   static isIntegerNumber(source) {
     const reg = new RegExp(/^[-+]?[0-9]\d*$/);
     return reg.test(source);

@@ -1,0 +1,33 @@
+.card {
+    border-radius: $large-radius;
+    border: 1px solid var(--border-color);
+    padding: $default-spacing;
+    background: var(--base-color);
+    color: var(--base-background);
+    box-shadow: rgba(255, 255, 255, 0.24) 0px 3px 8px;
+    &__header {
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    &__center-body {
+        margin-top: $large-spacing;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    &__left-body {
+        text-align: left;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .card {
+        margin-top: $default-spacing;
+        &__header {
+            font-size: 0.8rem;
+        }
+    }
+    
+}

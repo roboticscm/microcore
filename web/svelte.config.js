@@ -13,7 +13,11 @@ const config = {
 		assets: '',
 		base: ''
 	},
-	vite: () => ({})
+	vite: {
+		ssr:{
+			noExternal: ['chart.js']
+		}
+	}
 };
 
 export default config;

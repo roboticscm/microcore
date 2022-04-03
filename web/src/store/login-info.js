@@ -5,6 +5,9 @@ export class LoginInfo {
     static accountAvatar$ = new BehaviorSubject(undefined);
     static username = undefined;
     static displayName$ = new BehaviorSubject(undefined);
+    static locale$ = new BehaviorSubject(undefined);
+    static branch$ = new BehaviorSubject(undefined);
+    static currentMenu$ = new BehaviorSubject(undefined);
 
     static reset() {
         LoginInfo.userId = undefined;

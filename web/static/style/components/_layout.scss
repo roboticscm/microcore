@@ -6,8 +6,8 @@
         flex: 0;
         min-height: $header-height;
         padding-bottom: $default-spacing;
-        background: var(--header-background);
-        color: var(--header-color);
+        background: var(--base-background);
+        color: var(--base-color);
 
         &__content {
             -moz-box-shadow: 0  $small-spacing  $small-spacing rgba(0, 0, 0, 0.4);
@@ -21,8 +21,8 @@
 
     &__content {
         flex: 1;
-        background: var(--header-background);
-        color: var(--header-color);
+        background: var(--base-background);
+        color: var(--base-color);
         padding: $default-spacing;
         padding-top: 0;
     }
@@ -42,6 +42,8 @@
 
     &__title {
         margin-top: $default-spacing;
+        font-size: 1.8rem;
+        text-transform: uppercase;
     }
 
     

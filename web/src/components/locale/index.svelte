@@ -3,8 +3,13 @@
 	import { SvgIcon } from '$lib/constants';
 	import { AppStore } from '/src/store/app';
 	import { onMount } from 'svelte';
+	import { LoginInfo } from '/src/store/login-info';
+	import { SettingService } from '/src/services/setting';
 
-	const { notify$, locale$ } = AppStore;
+	export let saveDb = false;
+
+	const { notify$ } = AppStore;
+	const { locale$ } = LoginInfo;
 
 	const { usFlag, vnFlag } = SvgIcon;
 
@@ -16,10 +21,23 @@
 			$locale = 'vi';
 		}
 
-		locale$.next($locale);
+		if(saveDb) {
+			SettingService.saveUserSetting(['locale'], [$locale]);
+		} else {
+			localStorage.setItem('locale', $locale);
+		}
 	};
 
 	onMount(() => {
+		if(saveDb) {
+			// TODO load db
+		} else {
+			const savedLocale = localStorage.getItem('locale');
+			if(savedLocale) {
+				$locale = savedLocale;
+			}
+		}
+
 		const subscription = notify$.subscribe(async (res) => {
 			if(res && res.table === 'resource') {
 				const oldValue = locale$.value;

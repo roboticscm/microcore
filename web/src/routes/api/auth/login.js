@@ -4,11 +4,13 @@ import qrcode from 'qrcode';
 import { verifyCode } from '$lib/2fa';
 import { query } from '$lib/db/template';
 import { replaceToken, encodePassword } from '$lib/encode';
-import { restError, restOk } from '$lib/rest';
-import { vilidateLogin } from './validation';
+import { restError, restOkWithHeader } from '$lib/rest';
+import { validateLogin } from './validation';
 import { objectIsEmpty } from '$lib/object';
 import { generateToken, extractDeviceDesc } from '/src/hooks';
 import { getKnexInstance } from '$lib/db/util';
+import { dev } from '$app/env';
+import { setCookieHeader } from '$lib/authentication';
 
 // Login
 export const post = async ({ request }) => {
@@ -16,7 +18,7 @@ export const post = async ({ request }) => {
         const body = await request.json();
 
         //validate
-        const error = vilidateLogin(body);
+        const error = validateLogin(body);
 
         if (!objectIsEmpty(error)) {
             return restError(error, 422, 'login validation error')
@@ -38,7 +40,11 @@ export const post = async ({ request }) => {
                 // generate token access token
                 const accessToken = generateToken(false, { userId: record.id, username: body.username })
                 // generate refresh access token
-                const refreshToken = generateToken(false, { userId: record.id, username: body.username })
+                const refreshToken = generateToken(false, { userId: record.id, username: body.username });
+                if(dev) {
+                    console.log('accessToken: ', replaceToken(accessToken, body.deviceId),);
+                    console.log('refreshToken: ', replaceToken(refreshToken, body.deviceId),);
+                }
                 // save refresh token and login detail
                 const deviceDesc = extractDeviceDesc(request);
                 const deleteOldRefreshTokenCond = (builder) => builder.where({ createdBy: record.id, device: deviceDesc })
@@ -52,7 +58,7 @@ export const post = async ({ request }) => {
                     createdBy: record.id,
                     device: deviceDesc,
                     type: 'LOGIN',
-                    ip: body.ip || '',
+                    ip: body.ip,
                 }
 
                 try {
@@ -67,7 +73,8 @@ export const post = async ({ request }) => {
                             accountAvatar: record.accountAvatar,
                         }
                     };
-                    return restOk(res);
+                    
+                    return restOkWithHeader(res, setCookieHeader(replaceToken(accessToken, body.deviceId), !dev), 302);
                 } catch (err) {
                     return restError({ unknownError: 'sys.msg.authentication failed' }, 422, err)
                 }
@@ -151,3 +158,4 @@ const saveRefreshTokenAndLoginDetail = (deleteOldRefreshTokenCond, refreshPayloa
             })
     });
 }
+

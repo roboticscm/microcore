@@ -2,8 +2,7 @@
 import { LoginInfo } from '/src/store/login-info';
 import { Browser } from './browser';
 import { clearToken } from './local-storage';
-import { config } from '/src/config/config';
-
+import { serialize } from 'cookie';
 
 // import { MenuStore } from 'src/system/menu/store';
 export let defaultHeader = {};
@@ -14,8 +13,41 @@ let screenLocked = false;
 export const logout = () => {
   clearToken();
   LoginInfo.reset();
+  location.reload();
 }
 
+export const protectPage = async (session, base) => {
+  if (!session?.user) {
+    return {
+      status: 302,
+      redirect: "/?mode=login"
+    }
+  }
+
+  return base;
+}
+
+
+export const setCookieHeader = (id, secure, set = true) => {
+  if (set) {
+    return {
+      'Set-Cookie': serialize('sessionId', id, {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'strict',
+        secure,
+        maxAge: 60 * 60 * 24 * 7, // one week
+      }),
+    }
+  } else {
+    return {
+      'Set-Cookie': serialize('sessionId', id, {
+        path: '/',
+        expires: new Date(0),
+      })
+    }
+  }
+}
 export class Authentication {
   // static logout = () => {
   //   Authentication.logoutAPI().then((res) => {
@@ -25,7 +57,7 @@ export class Authentication {
   //       LoginInfo.isLoggedIn$.next(false);
   //     }
 
-      
+
   //     window.location.replace('/');
   //   });
   // };
@@ -148,7 +180,7 @@ export class Authentication {
     // if (LoginInfo.isLoggedIn$.value != result) {
     //   LoginInfo.isLoggedIn$.next(result);
     // }
-    
+
     // return result;
   };
 
@@ -190,12 +222,12 @@ export class Authentication {
     // defaultHeader = {
     //   authorization: 'Bearer ' + token,
     // }
-    
+
     // if (LoginInfo.branchId$.value) {
     //   MenuStore.findFlatMenu();
     //   MenuStore.findDepartmentMenu();
     // }
-    
+
   };
 
   static refreshAPI = (refreshToken) => {

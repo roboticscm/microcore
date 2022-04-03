@@ -3,8 +3,8 @@
     position: fixed;
     z-index: $high-z-index;
     padding-top: $default-spacing;
-    background: var(--base-background);
-    color: var(--base-color);
+    background: var(--menu-background);
+    color: var(--menu-color);
     height: calc(100% - #{$header-height} + #{$default-spacing});
     width: 220px;
     &__header {
@@ -42,7 +42,7 @@
         padding-left: $default-spacing;
         padding-right: $default-spacing;
         hr {
-            border: 1px solid rgba(200, 200, 200, 0.3);
+            border: 1px solid var(--border-color);
         }
         
         user-select: none;

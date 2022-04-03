@@ -1,12 +1,12 @@
 import { Browser } from './browser';
 import vnNum2Words from 'vn-num2words';
 export class SNumber {
-  static toLocaleString(n, numberDecimal = 0) {
+  static toLocaleString(n, numberDecimal = 0, window) {
     if (n === undefined) {
       return ''
     }
 
-    return n ? n.toLocaleString(Browser.getLanguage(), { minimumFractionDigits: numberDecimal, maximumFractionDigits: numberDecimal }) : '0'
+    return n ? n.toLocaleString(Browser.getLanguage(window), { minimumFractionDigits: numberDecimal, maximumFractionDigits: numberDecimal }) : '0'
   }
 
   static getDecimalSeparator(locale) {

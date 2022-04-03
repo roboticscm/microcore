@@ -5,8 +5,8 @@ export class Browser {
     return Browser.getBrowser() === 'Safari';
   }
 
-  static getLanguage() {
-    let locale = window.navigator.userLanguage || window.navigator.language;
+  static getLanguage(_window) {
+    let locale = (_window || window).navigator.userLanguage || (_window || window).navigator.language;
     if (locale === "en") {
       return "en-US";
     } else if (locale === "vi") {

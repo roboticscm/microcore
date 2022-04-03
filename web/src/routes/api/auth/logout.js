@@ -1,6 +1,7 @@
-import { restError, restOk } from '$lib/rest';
+import { restError, restOkWithHeader } from '$lib/rest';
 import { getKnexInstance } from '$lib/db/util';
 import { verifyToken, extractDeviceDesc } from '/src/hooks';
+import { setCookieHeader } from '$lib/authentication';
 
 export const post = async ({ request }) => {
     try {
@@ -17,7 +18,7 @@ export const post = async ({ request }) => {
         const deleteRefreshTokenCond = (builder) => builder.where({ createdBy: payload.userId, device: deviceDesc })
         saveLogoutDetailAndDeleteRefreshToken(loginDetailPayload, deleteRefreshTokenCond);
 
-        return restOk({})
+        return restOkWithHeader({}, setCookieHeader('', false));
     } catch (err) {
         restError({ unknownError: 'sys.msg.logout failed' }, 422, err)
     }

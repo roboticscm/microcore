@@ -1,5 +1,5 @@
 export class App {
-    static NAME = 'Infinity'
+    static NAME = 'Infinity Trades LTD'
     static AUTO_COMPLETE = "off";
     static SPACE_CODE = '&nbsp;';
     static SNACKBAR_TIMEOUT = 2000;

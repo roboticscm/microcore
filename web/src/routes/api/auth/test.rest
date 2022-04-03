@@ -22,3 +22,24 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyODAxN
     "ip": "1.52.204.129",
     "deviceId": "xxxxx"
 }
+
+###
+POST http://localhost/api/auth/forgot-password
+Content-Type: application/json
+
+{
+    "email": "roboticscm2020@gmail.com",
+    "subject": "Lay lai mat khau",
+    "html": "Vui long click vao link sau"
+}
+
+###
+POST http://localhost/api/auth/reset-password
+Content-Type: application/json
+
+{
+    "session": "57b03f9b-f6e1-4550-9e09-3e33626e36bb",
+    "password": "2019",
+    "ip": "xxx",
+    "deviceDesc": "xxxxx"
+}

@@ -3,7 +3,6 @@
 	import { t } from '$lib/i18n';	
 	import Locale from '/src/components/locale/index.svelte';
 	import { LoginInfo } from '/src/store/login-info';
-	import { AppStore } from '/src/store/app';
 	import { someParentHasClass } from '$lib/dom';
 	import { onMount } from 'svelte';
 	import { genUUID } from '$lib/random';
@@ -12,10 +11,8 @@
 	import { AuthService } from '../login/service';
 	import { getToken } from '$lib/local-storage';
 	import { getPublicIp } from '$lib/util'
-	import { Browser } from '$lib/browser';
 
-	const { accountAvatar$, displayName$ } = LoginInfo;
-	const { currentMenu$ } = AppStore;
+	const { accountAvatar$, displayName$, currentMenu$ } = LoginInfo;
 
 	const menuUuidClass = genUUID();
 
@@ -25,17 +22,17 @@
 
 	const menuList = [
 		{ code: 'separator' },
-		{ code: 'dashboard', icon: '<i class="fas fa-chart-bar"></i>', name: 'sys.menu.dashboard', path: '/dashboard' },
-		{ code: 'profile', icon: '<i class="fas fa-user-circle"></i>', name:  'sys.menu.profile', path: '/profile' },
-		{ code: 'tradingPackage', icon: '<i class="fa-solid fa-box-open"></i>', name:  'sys.menu.trading package', path: '/trading-package' },
-		{ code: 'wallet', icon: '<i class="fa-solid fa-wallet"></i>', name:  'sys.menu.wallet', path: '/wallet' },
-		{ code: 'referrals', icon: '<i class="fas fa-users"></i>', name:  'sys.menu.referrals', path: '/referrals' },
-		{ code: 'tradingProof', icon: '<i class="fa-solid fa-clock-rotate-left"></i>', name:  'sys.menu.trading proof', path: '/tradingProof' },
+		{ id: '1', code: 'dashboard', icon: '<i class="fas fa-chart-bar"></i>', name: 'sys.menu.dashboard', path: '/dashboard' },
+		{ id: '2', code: 'profile', icon: '<i class="fas fa-user-circle"></i>', name:  'sys.menu.profile', path: '/profile' },
+		{ id: '3', code: 'tradingPackage', icon: '<i class="fa-solid fa-box-open"></i>', name:  'sys.menu.trading package', path: '/trading-package' },
+		{ id: '4', code: 'wallet', icon: '<i class="fa-solid fa-wallet"></i>', name:  'sys.menu.wallet', path: '/wallet' },
+		{ id: '5', code: 'referrals', icon: '<i class="fas fa-users"></i>', name:  'sys.menu.referrals', path: '/referrals' },
+		{ id: '6', code: 'tradingProof', icon: '<i class="fa-solid fa-clock-rotate-left"></i>', name:  'sys.menu.trading proof', path: '/tradingProof' },
 		{ code: 'separator' },
-		{ code: 'blogs', icon: '<i class="fas fa-blog"></i>', name:  'sys.menu.blogs', path: '/blogs' },
-		{ code: 'about', icon: '<i class="fa-solid fa-user-astronaut"></i>', name:  'sys.menu.about', path: '/about' },
+		{ id: '7', code: 'blogs', icon: '<i class="fas fa-blog"></i>', name:  'sys.menu.blogs', path: '/blogs' },
+		{ id: '8', code: 'about', icon: '<i class="fa-solid fa-user-astronaut"></i>', name:  'sys.menu.about', path: '/about' },
 		{ code: 'separator' },
-		{ code: 'logout', icon: '<i class="fa fa-sign-out"></i>', name:  'sys.menu.logout', path: '../../' },
+		{ id: '9', code: 'logout', icon: '<i class="fa fa-sign-out"></i>', name:  'sys.menu.logout', path: '../../' },
 	];
 
 	let accountAvatar;
@@ -57,7 +54,7 @@
 		switch (menu.code){
 			case 'logout':
 				AuthService.logout({
-					refreshToken: getToken(true).refreshToken,
+					refreshToken: getToken().refreshToken,
 					ip: publicIp,
 				}).finally(() => {
 					logout();

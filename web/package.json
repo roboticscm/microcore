@@ -28,6 +28,7 @@
     "@types/grecaptcha": "^3.0.4",
     "bower": "^1.8.14",
     "bowser": "^2.11.0",
+    "chart.js": "^3.7.1",
     "cookie": "^0.4.2",
     "handlebars": "^4.7.7",
     "js-sha256": "^0.9.0",
@@ -44,6 +45,7 @@
     "qrcode": "^1.5.0",
     "rxjs": "^7.5.5",
     "speakeasy": "^2.0.0",
+    "svelte-chartjs": "^1.1.4",
     "ua-parser-js": "^1.0.2",
     "uuid": "^8.3.2",
     "vn-num2words": "^1.0.4"

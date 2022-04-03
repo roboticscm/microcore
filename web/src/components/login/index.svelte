@@ -18,8 +18,9 @@
 	import { LoginInfo } from '/src/store/login-info';
 	import { saveToken } from '$lib/local-storage';
 	import { getPublicIp } from '$lib/util';
-
-
+	import QRCode from 'qrcode';
+	import { config } from '/src/config/config';
+	
 	const dispatch = createEventDispatcher();
 	const store = new Store();
 
@@ -27,15 +28,16 @@
 	let loaded = false;
 	let form = resetForm();
 	let isRunning = false;
-	let snackbarRef, usernameRef;
+	let snackbarRef, usernameRef, qrCodeRef;
 	let publicIp;
 
 	onMount(async () => {
 		loaded = true;
 		publicIp = await getPublicIp();
 		setTimeout(() => {
-			usernameRef && usernameRef.focus();
+			usernameRef && usernameRef.focus && usernameRef.focus();
 		}, 300);
+		generateQrCode();
 	});
 
 	const validateForm = () => {
@@ -55,9 +57,14 @@
 		store
 			.login({...form.data(), ip: publicIp, deviceId: Browser.getBrowserID()})
 			.then(async (res) => {
-				if (res.status > 300) {
+				if (res.status > 400) {
 					const err = await res.json();
-					form.errors.errors = form.recordErrors(err.error);
+					if(err.unknownError) {
+						snackbarRef.showUnknownError($t(err.unknownError));
+					} else {
+						form.errors.errors = form.recordErrors(err.error);
+					}
+					
 				} else {
 					snackbarRef.showLoginSuccess();
 					const body = await res.json();
@@ -72,8 +79,9 @@
 						accessToken: body.accessToken,
 						refreshToken: body.refreshToken,
 					})
-
-					goto('/views/dashboard');
+					setTimeout(() => {
+						location.reload();
+					}, 2000);
 				}
 			})
 			.catch((err) => {
@@ -81,6 +89,16 @@
 			})
 			.finally(() => (isRunning = false));
 	};
+
+	const generateQrCode = () => {
+		store.getNewId().then((value) => {
+			QRCode.toCanvas(qrCodeRef, `${value}`, { margin: 0, version: 3 }, (error) => {
+				if (error) {
+					console.error(error)
+				}
+			});
+		})
+  	}
 </script>
 
 <Snackbar bind:this={snackbarRef} />
@@ -92,7 +110,7 @@
 	<form
 		novalidate
 		on:submit|preventDefault
-		class="w-100 h-100 center-box login-background default-radius-border"
+		class="w-100 h-100 center-box default-radius-border"
 		on:keydown={(event) => {
 			form.errors.clear(event.target.name);
 			form.errors.errors = {};
@@ -107,9 +125,11 @@
 				<div class="center-text large-padding title-text">
 					{$t('sys.label.welcome')}
 				</div>
-				<div class="center-text large-padding avatar">
+				<div class="center-text large-padding form-avatar">
 					<img src="/images/logo.png" class="logo" alt="Logo" />
 				</div>
+
+				
 			</div>
 
 			<div
@@ -123,7 +143,6 @@
 					<div>
 						<TextInput
 							bind:this={usernameRef}
-							style="font-size: 1.3rem;"
 							type="search"
 							showSuffixIcon={true}
 							suffixIcon="<i class='far fa-id-badge'>"
@@ -136,7 +155,6 @@
 					</div>
 					<div style="padding-top: 16px;">
 						<TextInput
-							style="font-size: 1.3rem;"
 							showSuffixIcon={true}
 							suffixIcon="<i class='fas fa-key'>"
 							name="password"
@@ -145,10 +163,10 @@
 							label={$t('sys.label.password')}
 							placeholder={$t('sys.label.enter your password')}
 						/>
-						<Error {form} field="password" />
+						<Error {form} field="password" replaceParams={[config.minPasswordLength]} />
 					</div>
 
-					<div class="right-box" style="padding-top: 16px;">
+					<div class="right-box link" style="padding-top: 16px;" on:click={() => {dispatch('changeMode', { mode: 'FORGOT_PASSWORD' }); goto ('/');}}>
 						{$t('sys.label.forgot Password')}
 					</div>
 
@@ -163,14 +181,17 @@
 						/>
 					</div>
 				</div>
+				<div class="qr-code" style="margin-top: 6px;">
+					<canvas bind:this={qrCodeRef} />
+				</div>
 				<div>
-					<div class="center-box" style="padding-top: 50px;">
-						{$t('sys.label.or')}
+					<div class="center-box" style="padding-top: 12px;">
+						{$t('sys.label.or back to')}
 					</div>
 					<div class="center-box">
 						<Button
-							on:click={() => dispatch('changeMode', { signupMode: true })}
-							style="width: 50%; margin-top: 10px;"
+							on:click={() => {dispatch('changeMode', { mode: 'SIGN_UP' }); goto ('/');}}
+							style="width: 60%; margin-top: 10px;"
 							type="button"
 							icon="<i class='fas fa-file-signature'>"
 							text="sys.button.sign up now"
@@ -188,63 +209,13 @@
 {/if}
 
 <style lang="scss">
-	// input {
-	// 	font-size: 1.3rem;
-	// }
-	.login-background {
-		background-image: url('/images/login-background.png');
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: cover;
-		opacity: 0.9;
-	}
-	.load-screen {
-		background: #000;
-		opacity: 0.8;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		height: 100%;
-		text-align: center;
-	}
-
-	.loading {
-		color: #fff;
-		margin: 0 auto;
-	}
-
 	.login-title {
 		display: block;
-	}
-
-	.welcome {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-
-		&::after {
-			position: absolute;
-			content: '';
-			height: 90%;
-			width: 2px;
-			right: 0;
-			background: var(--border-light-color);
-		}
 	}
 
 	.logo {
 		width: 200px;
 		height: 200px;
-	}
-
-	.container {
-		overflow: auto;
-		font-size: 1.3rem;
-		height: 80%;
-		width: 70%;
-		background-color: rgba(255, 255, 255, 0.99);
 	}
 
 	@media screen and (max-width: 1024px) {
@@ -254,9 +225,10 @@
 
 		.welcome {
 			justify-content: flex-start;
-			&::after {
-				display: none;
-			}
+			max-height: 150px;
+			// &::after {
+			// 	display: none;
+			// }
 		}
 
 		.logo {
@@ -268,6 +240,10 @@
 			height: 80%;
 			width: 60%;
 		}
+
+		.qr-code {
+			display: none;
+		}
 	}
 
 	@media screen and (max-width: 768px) {
@@ -276,6 +252,7 @@
 		}
 
 		.welcome {
+			max-height: 150px;
 			justify-content: flex-start;
 		}
 
@@ -287,6 +264,10 @@
 		.container {
 			height: 100%;
 			width: 100%;
+		}
+
+		.qr-code {
+			display: none;
 		}
 	}
 </style>

@@ -1,6 +1,7 @@
 import { CommonValidation } from '$lib/common-validation';
+import { config } from '/src/config/config';
 
-export const validate = (form) => {
+export const validate = (form, serverSide = false) => {
   const error = {};
 
   if (CommonValidation.isEmptyString(form.username)) {
@@ -15,12 +16,18 @@ export const validate = (form) => {
     error.email = CommonValidation.INVALID_EMAIL;
   }
 
-  if (CommonValidation.isEmptyString(form.password)) {
-    error.password = CommonValidation.REQUIRED_VALUE;
+  if (!CommonValidation.isMinLength(form.password, config.minPasswordLength)) {
+    error.password = CommonValidation.MIN_LENGTH;
   }
 
-  if (form.password !== form.confirmPassword) {
-    error.confirmPassword = CommonValidation.PASSWORD_DOES_NOT_MATCH;
+  if(!serverSide) {
+    if (form.password !== form.confirmPassword) {
+      error.confirmPassword = CommonValidation.PASSWORD_DOES_NOT_MATCH;
+    }
+  }
+  
+  if (form.referralId?.trim() && !CommonValidation.isIntegerNumber(form.referralId)) {
+    error.referralId = CommonValidation.INTEGER_NUMBER;
   }
 
   return error;

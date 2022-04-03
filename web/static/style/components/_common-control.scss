@@ -1,4 +1,16 @@
 .form-control {
     width: 100%;
     border: 1px solid var(--border-color);
+    border-radius: $large-radius;
+    padding: $default-spacing;
+    background: transparent;
+    color: var(--base-color);
+}
+
+
+.link {
+    cursor: pointer;
+    &:hover {
+        color: var(--link-active-color);
+    }
 }

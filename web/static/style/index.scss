@@ -1,5 +1,5 @@
-@import 'base/reset';
 @import 'helpers/variables';
+@import 'base/reset';
 @import 'themes/default';
 @import 'helpers/mixin';
 @import 'responsive/grid-system';
@@ -20,6 +20,8 @@
 @import 'components/snackbar';
 @import 'components/layout';
 @import 'components/dropdown';
+@import 'components/card';
+@import 'components/image';
 
 @import 'views/login';
 

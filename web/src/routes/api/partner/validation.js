@@ -5,8 +5,7 @@ import { objectIsEmpty } from '$lib/object';
 
 export const validateUpsertPartner = async (body) => {
     //client validate
-    const error = validate(body);
-    delete error.confirmPassword;
+    const error = validate(body, true);
     
     if(!objectIsEmpty(error)) {
         return error;

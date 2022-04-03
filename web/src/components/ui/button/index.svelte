@@ -361,6 +361,7 @@
         <div style="display: flex; justify-content: center;">
           {#if running}
             <i class="fa fa-spinner fa-spin" />
+            {@html App.SPACE_CODE + App.SPACE_CODE}
           {:else if showIcon}
             {#if icon && icon.includes('<')}
               <div style="height: 16px; width: 16px;">
@@ -369,32 +370,17 @@
             {:else}
               <svelte:component this={IconComponent} className="{disabled ? 'svg-disabled' : ''} {iconClassName}" />
             {/if}
+
           {/if}
-          {@html App.SPACE_CODE + App.SPACE_CODE}
+          
+          {#if showIcon && showText}
+            {@html App.SPACE_CODE + App.SPACE_CODE}
+          {/if}
+
           {#if showText}
             {@html  (text || '').countSubString('.') > 1 ? $t(text) : text}
           {/if}
         </div>
-
-      <!-- {#if running}
-        <i class="fa fa-spinner fa-spin" />
-      {:else if showIcon}
-        {#if icon && icon.includes('<')}
-          <div style="height: 16px; width: 16px;">
-            {@html icon}
-          </div>
-        {:else}
-          <svelte:component this={IconComponent} className="{disabled ? 'svg-disabled' : ''} {iconClassName}" />
-        {/if}
-      {/if}
-      {#if showText && text}
-        <div class="center-middle">
-          <div style="width: 8px;">
-            {@html App.SPACE_CODE + App.SPACE_CODE}
-          </div>
-          {@html text}
-        </div>
-      {/if} -->
     {/if}
   </button>
 {/if}

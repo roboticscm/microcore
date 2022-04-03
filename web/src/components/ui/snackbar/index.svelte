@@ -38,6 +38,19 @@
   export const showChangePasswordSuccessful = () => {
     show($t('sys.msg.change password successfull') );
   }
+
+  export const showSendMailToResetPasswordSuccess = () => {
+    show($t('sys.msg.please check mail and click the link to change new password') );
+  }
+
+  export const showResetPasswordSuccess = () => {
+    show($t('sys.msg.the password reset successful, you will be redirected to the login page momentarily...'), App.SNACKBAR_TIMEOUT*3 );
+  }
+
+  export const showSignupSuccess = () => {
+    show($t('sys.msg.sign up successful, you will be redirected to the login page momentarily...'), App.SNACKBAR_TIMEOUT*3 );
+  }
+  
   export const showUnknownError = (extraMsg = '') => {
     if (dev) {
       show($t('sys.msg.unknown error') + (StringUtil.isEmpty(extraMsg) ? '' : '. ' + extraMsg));

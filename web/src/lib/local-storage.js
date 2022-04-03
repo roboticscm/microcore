@@ -1,5 +1,7 @@
+import { config } from '/src/config/config';
+
 export const saveToken = (param) => {
-    if(param.remember) {
+    if(config.rememberClient) {
         localStorage.setItem('accessToken', param.accessToken);
         localStorage.setItem('refreshToken', param.refreshToken);
     } else {
@@ -8,8 +10,8 @@ export const saveToken = (param) => {
     }
 }
 
-export const getToken = (remember = true) => {
-    if(remember) {
+export const getToken = () => {
+    if(config.rememberClient) {
         return {
             accessToken: localStorage.getItem('accessToken'),
             refreshToken: localStorage.getItem('refreshToken')
@@ -32,6 +34,6 @@ export const clearToken = () => {
 export const buildHeader = () => {
     return {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${getToken(true).accessToken}`,
+        Authorization: `Bearer ${getToken().accessToken}`,
     }
 }

@@ -6,7 +6,6 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyODAxN
 {
     "branchId": "1",
     "menuId": "2",
-    "deviceId": "xxxxx",
     "keys": ["menuId", "locale"],
     "values": ["1", "en"]
 }

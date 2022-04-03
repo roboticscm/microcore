@@ -18,3 +18,14 @@ export const restOk = (bodyObj, status = 200) => {
         }
     }
 }
+
+
+export const restOkWithHeader = (bodyObj, headers, status = 200) => {
+    return {
+        status,
+        headers,
+        body: {
+           ...bodyObj
+        }
+    }
+}

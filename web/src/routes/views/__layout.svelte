@@ -24,8 +24,10 @@
 	import { t } from '$lib/i18n';
 	import { App } from "$lib/constants";
 	import { SettingService } from '/src/services/setting';
+	import { LoginInfo } from '/src/store/login-info';
 
-    const { notify$, currentMenu$ } = AppStore;
+    const { notify$ } = AppStore;
+	const { currentMenu$ } = LoginInfo;
 
     onMount(() => {
 		const evtSource = new EventSource(`${config.messagingServer}/notify`);
@@ -36,7 +38,7 @@
 
 	const reloadSettings = () => {
 		SettingService.getInitialUserSetting().then((res) => {
-			console.log(res);
+			// console.log(res);
 		});
 	}
 	reloadSettings();
@@ -44,7 +46,7 @@
 </script>
 
 <svelte:head>
-    <title>{App.NAME} - {$t(($currentMenu$||{}).name)}</title>
+    <title>{App.NAME} - {$t($currentMenu$?.name)}</title>
 </svelte:head>
 
 <main class="main w-100 h-100">
@@ -55,7 +57,7 @@
         
     </section>
     
-    <section class="main__content">
+    <section style="padding-top: 6px;" class="main__content">
         <slot></slot>
     </section>
 </main>

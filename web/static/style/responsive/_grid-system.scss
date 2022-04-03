@@ -18,7 +18,7 @@
   grid-template-columns: repeat(#{$cols48}, 1fr);
   padding-top:$small-spacing;
   padding-bottom:$small-spacing;
-  grid-column-gap: 10px;
+  grid-column-gap: 2px;
 }
 
 .row96 {
@@ -26,7 +26,7 @@
   grid-template-columns: repeat(#{$cols96}, 1fr);
   padding-top:$small-spacing;
   padding-bottom:$small-spacing;
-  grid-column-gap: 10px;
+  grid-column-gap: 1px;
 }
 
 @for $i from 1 through $cols {
