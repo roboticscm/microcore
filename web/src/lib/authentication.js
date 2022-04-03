@@ -29,8 +29,9 @@ export const protectPage = async (session, base) => {
 
 
 export const setCookieHeader = (id, secure, set = true) => {
+  let headers;
   if (set) {
-    return {
+    headers = {
       'Set-Cookie': serialize('sessionId', id, {
         path: '/',
         httpOnly: true,
@@ -40,13 +41,16 @@ export const setCookieHeader = (id, secure, set = true) => {
       }),
     }
   } else {
-    return {
+    headers = {
       'Set-Cookie': serialize('sessionId', id, {
         path: '/',
         expires: new Date(0),
       })
     }
   }
+
+  console.log(headers)
+  return headers;
 }
 export class Authentication {
   // static logout = () => {
