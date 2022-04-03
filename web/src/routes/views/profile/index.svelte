@@ -42,8 +42,8 @@
 			<form>
 				<div class="row">
 					<div class="col-xs-24 col-lg-5">
-						<div style="avatar margin-left: 6px; margin-top: 6px; display: flex; justify-content: center; ">
-							<div style="min-width: 172px; width: 172px; height: 172px;">
+						<div style="margin-left: 6px; margin-top: 6px; display: flex; justify-content: center; ">
+							<div  style="min-width: 172px; width: 172px; height: 172px;">
 								<ImagePicker/>
 							</div>
 						</div>

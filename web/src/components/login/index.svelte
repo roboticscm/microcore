@@ -69,11 +69,15 @@
 					snackbarRef.showLoginSuccess();
 					const body = await res.json();
 					
-					LoginInfo.userId = body.loginInfo.userId;
-					LoginInfo.username = body.loginInfo.username;
+					LoginInfo.userId$.next(body.loginInfo.userId);
+					LoginInfo.username$.next(body.loginInfo.username);
 					LoginInfo.displayName$.next(body.loginInfo.displayName);
 					LoginInfo.accountAvatar$.next(body.loginInfo.accountAvatar);
-
+					//TODO
+					localStorage.setItem('userId', body.loginInfo.userId);
+					localStorage.setItem('username', body.loginInfo.username);
+					localStorage.setItem('displayName', body.loginInfo.displayName);
+					
 					saveToken({
 						remember: true,
 						accessToken: body.accessToken,
@@ -81,6 +85,7 @@
 					})
 					setTimeout(() => {
 						location.reload();
+						// goto('/views/dashboard')
 					}, 2000);
 				}
 			})

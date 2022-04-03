@@ -97,8 +97,10 @@
 
 		{#if accountAvatar}
 			<img title={LoginInfo.username} class="nav__avatar__img" src="{accountAvatar}" alt="Avt" />
-		{:else}
+		{:else if ($displayName$)}
 			<div title={LoginInfo.username} class="nav__avatar__text">{($displayName$||'').createAvatar()}</div>
+		{:else}
+			<img title={LoginInfo.username} class="nav__avatar__img" src="/images/camera.png" alt="Avt" />
 		{/if}
 	</div>
 	
@@ -109,11 +111,13 @@
 		<div class="dropdown__header__avatar">
 			{#if accountAvatar}
 				<img class="dropdown__header__avatar__img" src="{accountAvatar}" alt="Avt" />
-			{:else}
+			{:else if $displayName$}
 				<div class="dropdown__header__avatar__text">{($displayName$||'').createAvatar()}</div>
+			{:else}
+				<img title={LoginInfo.username} class="dropdown__header__avatar__img" src="/images/camera.png" alt="Avt" />
 			{/if}
 		</div>
-		<div class="dropdown__header__display-name" title={LoginInfo.username}>{$displayName$}</div>
+		<div class="dropdown__header__display-name" title={LoginInfo.username}>{$displayName$ || $t('sys.label.no display name')}</div>
 	</div>
 	{#if menuList && Array.isArray(menuList)}
 		{#each menuList as menu}

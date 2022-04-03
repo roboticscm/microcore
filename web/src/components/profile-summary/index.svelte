@@ -7,15 +7,21 @@
 	import { onMount } from 'svelte';
     import { SNumber } from '$lib/snumber';
 
+    const { userId$ } = LoginInfo
 	const activePackageValue = 50000;
 	const accountBalance = 1258;
 	const profits = 258;
 	const commission = 853;
 	const registerDate = 1;
-	const referralsLink = `${config.fullDomain}?rid=${LoginInfo.userId}`;
+
+
+	$: referralsLink = `${config.fullDomain}?rid=${$userId$}`;
     let _window;
     let loaded = false;
 	onMount(() => {
+        // TODO
+        LoginInfo.userId$.next(localStorage.getItem('userId'));
+        
         _window = window;
         loaded = true;
     });
