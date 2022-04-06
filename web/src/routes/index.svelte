@@ -1,10 +1,18 @@
 <script context="module">
 	import { loadResource } from '$lib/i18n';
+	
 	export const load = async ({session, fetch, url}) => {
-		if(session.user) {
+		const res = await fetch('/api/auth/need-login', {
+			method: 'POST',
+			body: JSON.stringify({
+				pathname: url.pathname,
+				session
+			})
+		});
+		if(res.status < 400 && url.pathname !== '/views/dashboard') {
 			return {
 				status: 302,
-				redirect: "/views"
+				redirect: "/views/dashboard",
 			}
 		} else {
 			const _session = url.searchParams.get('session');
@@ -52,16 +60,16 @@
 	import '../../static/style/index.scss';
 	import '../init';
 	import { onMount } from 'svelte';
-	import LoginForm from '/src/components/login/index.svelte';
-	import SignupForm from '/src/components/signup/index.svelte';
-	import ForgotPasswordForm from '/src/components/forgot-password/index.svelte';
-	import ResetPasswordForm from '/src/components/reset-password/index.svelte';
-	import { config } from '/src/config/config';
-	import { AppStore } from '/src/store/app';
+	import LoginForm from '$components/login/index.svelte';
+	import SignupForm from '$components/signup/index.svelte';
+	import ForgotPasswordForm from '$components/forgot-password/index.svelte';
+	import ResetPasswordForm from '$components/reset-password/index.svelte';
+	import { config } from '$src/config/config';
+	import { AppStore } from '$src/store/app';
 	import JsonParseBigInt from 'json-parse-bigint';
 	import { Browser } from '$lib/browser';
 	import { locale } from '$lib/i18n';
-	import { LoginInfo } from '/src/store/login-info';
+	import { LoginInfo } from '$src/store/login-info';
 
 	export let loaded = false;
 	export let session;

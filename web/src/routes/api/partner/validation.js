@@ -1,4 +1,4 @@
-import { validate } from "/src/components/signup/validation";
+import { validate } from "$components/signup/validation";
 import { isExistedValue, isDuplicatedValue } from '$lib/db/util';
 import { objectIsEmpty } from '$lib/object';
 

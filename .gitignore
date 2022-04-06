@@ -15,3 +15,5 @@ web/src/config/knex-db.js
 go/common.config.json
 web/static/keys/
 web/yarn-error.log
+web/.env
+

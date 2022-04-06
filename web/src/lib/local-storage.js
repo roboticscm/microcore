@@ -1,4 +1,4 @@
-import { config } from '/src/config/config';
+import { config } from '$src/config/config';
 
 export const saveToken = (param) => {
     if(config.rememberClient) {
@@ -37,3 +37,8 @@ export const buildHeader = () => {
         Authorization: `Bearer ${getToken().accessToken}`,
     }
 }
+
+export const cleanup = () => {
+    clearToken();
+    location.reload();
+  }

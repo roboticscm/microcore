@@ -1,6 +1,6 @@
 import { restError, restOk } from '$lib/rest';
 import { getKnexInstance } from '$lib/db/util';
-import { extractTokenPayload } from '/src/hooks';
+import { extractTokenPayload } from '$lib/token';
 
 export const post = async ({ request }) => {
     try {

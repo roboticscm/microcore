@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { config } from '/src/config/config';
+import { config } from '$src/config/config';
     
 export const sendMail = async ({toList, subject, text, html, from}) => {
     if(!toList || toList.length === 0) {

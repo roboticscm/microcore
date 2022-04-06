@@ -1,9 +1,10 @@
-import { restError, restOkWithHeader } from '$lib/rest';
+import { restError, restOk, restOkWithHeader } from '$lib/rest';
 import { getKnexInstance } from '$lib/db/util';
-import { verifyToken, extractDeviceDesc } from '/src/hooks';
-import { setCookieHeader } from '$lib/authentication';
+import { setCookieHeader } from '$src/hooks';
+import { verifyToken } from '$lib/token';
+import { extractDeviceDesc } from '$lib/browser';
 
-export const post = async ({ request }) => {
+export const post = async ({ request, locals }) => {
     try {
         const body = await request.json();
         const payload = await verifyToken(body.refreshToken, body.deviceId);
@@ -18,9 +19,13 @@ export const post = async ({ request }) => {
         const deleteRefreshTokenCond = (builder) => builder.where({ createdBy: payload.userId, device: deviceDesc })
         saveLogoutDetailAndDeleteRefreshToken(loginDetailPayload, deleteRefreshTokenCond);
 
-        return restOkWithHeader({}, setCookieHeader('', false));
+        
+        locals.data = null;
+        return restOkWithHeader({}, {...setCookieHeader(''), localtion: '/'});
     } catch (err) {
-        return restOkWithHeader({}, setCookieHeader('', false));
+        locals.data = null;
+        return restOkWithHeader({}, setCookieHeader(''));
+        // return restOkWithHeader({}, setCookieHeader('', false));
         // restError({ unknownError: 'sys.msg.logout failed' }, 422, err)
     }
 }

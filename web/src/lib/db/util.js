@@ -1,4 +1,4 @@
-// import {getCurrentTime} from '$/src/lib/util';
+// import {getCurrentTime} from '$$src/lib/util';
 import knex from 'knex';
 import knexStringcase from 'knex-stringcase';
 import { config } from '../../config/knex-db'

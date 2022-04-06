@@ -20,7 +20,7 @@ export const restOk = (bodyObj, status = 200) => {
 }
 
 
-export const restOkWithHeader = (bodyObj, headers, status = 200) => {
+export const restOkWithHeader = (bodyObj, headers, status=302) => {
     return {
         status,
         headers,

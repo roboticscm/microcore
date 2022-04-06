@@ -1,22 +1,32 @@
 <script context="module">
-	import { protectPage } from '$lib/authentication';
-
-	export const load = async ({ session }) => {
-		return protectPage(session, {
-			props: {}
+	export const load = async ({ fetch, session, url }) => {
+		const res = await fetch('/api/auth/need-login', {
+			method: 'POST',
+			body: JSON.stringify({
+				pathname: url.pathname,
+				session
+			})
 		});
+
+		if (res.status > 400) {
+			return (await res.json()).error
+		}
+
+		return {
+			props: {}
+		};
 	};
 </script>
 
 <script>
 	import { SDate } from '$lib/date';
 	import { t } from '$lib/i18n';
-	import { config } from '/src/config/config';
-	import { LoginInfo } from '/src/store/login-info';
-	import Card from '/src/components/ui/card/index.svelte';
+	import { config } from '$src/config/config';
+	import { LoginInfo } from '$src/store/login-info';
+	import Card from '$components/ui/card/index.svelte';
 	import { onMount } from 'svelte';
 	import Line from 'svelte-chartjs/src/Line.svelte';
-	import ProfileSummary from '/src/components/profile-summary/index.svelte';
+	import ProfileSummary from '$components/profile-summary/index.svelte';
 
 	const totalNetwork = 1503000;
 	const totalCommission = 15360;
@@ -49,9 +59,9 @@
 </script>
 
 <main>
-	<ProfileSummary></ProfileSummary>
+	<ProfileSummary />
 
-	<div class="row96"  style="margin-top: 12px;">
+	<div class="row96" style="margin-top: 12px;">
 		<div class="col96-xs-96 col96-md-47" style="color: white;">
 			<div class="center-text large-font-size">
 				{$t('sys.label.weekly profits')}
@@ -83,9 +93,7 @@
 						plugins: {
 							legend: {
 								display: false
-							},
-
-							
+							}
 						}
 					}}
 				/>
@@ -96,7 +104,6 @@
 		</div>
 		<div class="vertical-line col96-1" />
 		<div class="col96-xs-96 col96-md-47">
-			
 			<div class="default-padding">
 				{$t('sys.label.total network')}: ${currencyFormat(totalNetwork)}
 			</div>

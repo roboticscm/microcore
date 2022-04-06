@@ -1,11 +1,12 @@
 <script>
 	import { SDate } from '$lib/date';
 	import { t } from '$lib/i18n';
-	import { config } from '/src/config/config';
-	import { LoginInfo } from '/src/store/login-info';
-	import Card from '/src/components/ui/card/index.svelte';
+	import { config } from '$src/config/config';
+	import { LoginInfo } from '$src/store/login-info';
+	import Card from '$components/ui/card/index.svelte';
 	import { onMount } from 'svelte';
     import { SNumber } from '$lib/snumber';
+    import Snackbar from '$components/ui/snackbar/index.svelte';
 
     const { userId$ } = LoginInfo
 	const activePackageValue = 50000;
@@ -18,6 +19,7 @@
 	$: referralsLink = `${config.fullDomain}?rid=${$userId$}`;
     let _window;
     let loaded = false;
+    let snackbarRef;
 	onMount(() => {
         // TODO
         LoginInfo.userId$.next(localStorage.getItem('userId'));
@@ -29,9 +31,15 @@
 	const currencyFormat = (value) => {
 		return SNumber.toLocaleString(value, 2, _window);
 	};
+
+    const onCopyToClipboard = () => {
+        navigator.clipboard.writeText(referralsLink);
+        snackbarRef.showCopyToClipboardSuccess(referralsLink);
+    }
 </script>
 
 {#if loaded}
+    <Snackbar bind:this={snackbarRef} />
     <div class="row card-list" style="row-gap: 6px;">
         <div class="col-xs-12 col-md-6">
             <Card
@@ -70,7 +78,7 @@
         </div>
 
         <div class="col-xs-24 col-md-12 large-top-margin">
-            {$t('sys.label.referrals link')}: <a class="link" href="{referralsLink}">{referralsLink}</a>
+            {$t('sys.label.referrals link')}: <a title={$t('sys.label.click to copy')} on:click={onCopyToClipboard} class="link" href="##">{referralsLink}</a>
         </div>
     </div>
     <div  style="margin-top: 12px;" class="dropdown__separator">

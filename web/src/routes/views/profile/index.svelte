@@ -1,5 +1,5 @@
-<script context="module">
-	import { protectPage } from '$lib/authentication';
+<!-- <script context="module">
+	import { protectPage } from '$lib/token';
 
 	export const load = async ({ session }) => {
 		return protectPage(session, {
@@ -8,19 +8,19 @@
 			}
 		});
 	};
-</script>
+</script> -->
 
 <script>
 	import { t } from '$lib/i18n';
 	import { onMount } from 'svelte';
-	import ProfileSummary from '/src/components/profile-summary/index.svelte';
-	import TextInput from '/src/components/ui/text-input/index.svelte';
-	import Error from '/src/components/ui/error/index.svelte';
-	import Button from '/src/components/ui/button/index.svelte';
+	import ProfileSummary from '$components/profile-summary/index.svelte';
+	import TextInput from '$components/ui/text-input/index.svelte';
+	import Error from '$components/ui/error/index.svelte';
+	import Button from '$components/ui/button/index.svelte';
 	import { Partner } from './types';
 	import Form from '$lib/form/form';
-	import ImagePicker from '/src/components/ui/image-picker/index.svelte';
-	import { ButtonType } from '/src/components/ui/button/types';
+	import ImagePicker from '$components/ui/image-picker/index.svelte';
+	import { ButtonType } from '$components/ui/button/types';
 
 	let isRunning;
 

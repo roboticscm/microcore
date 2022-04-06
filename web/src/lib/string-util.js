@@ -120,7 +120,7 @@ export class StringUtil {
   };
 
   static removeExtraSpace = (source) => {
-    if(!source) {
+    if (!source) {
       return '';
     }
 
@@ -167,7 +167,7 @@ export class StringUtil {
       return '%%';
     }
 
-    return '%' + StringUtil.replaceAll(StringUtil.unaccentVietnamese(value), "'", '') +'%';
+    return '%' + StringUtil.replaceAll(StringUtil.unaccentVietnamese(value), "'", '') + '%';
   }
 
   static formatExactlySearchParam(value) {
@@ -273,7 +273,7 @@ export class StringUtil {
     return Math.max(bytes, 0.1).toFixed(1) + byteUnits[i];
   }
 
-  static replaceParamAsTag = async (stringSource, paramObj, disabled = false, textareaRows = 4, textareaCols = 100, namePrefix='') => {
+  static replaceParamAsTag = async (stringSource, paramObj, disabled = false, textareaRows = 4, textareaCols = 100, namePrefix = '') => {
     if (!paramObj) {
       paramObj = {}
     }
@@ -285,31 +285,31 @@ export class StringUtil {
     let isNestedEachBlock = false;
     let startNestedEachLoopIndex = 0;
     // const  rxp = /{{([^)}]+)}/g;
-    const  rxp = /{{(.*)}}/g;
+    const rxp = /{{(.*)}}/g;
     let curMatch;
-    const input = (name, value, id, forceDisabled, type='text') => `<input autocomplete="off" ${type === 'date' ? 'data-slots="dmyh"' : undefined} ${type === 'date' ? 'placeholder="dd/mm/yyyy"' : undefined}  ${(disabled || forceDisabled) ? 'disabled': ''} class="report-margin-bottom" ${id ? 'id="' + id + '"' : ''} name="${name}" value="${value || ''}">`;
-    const textarea = (name, value, id) => `<textarea autocomplete="off" ${disabled ? 'disabled': ''} class="report-textarea" ${id ? 'id="' + id + '"' : ''} name="${name}" rows="${textareaRows}" columns="${textareaCols}">${value || ''}</textarea>`;
+    const input = (name, value, id, forceDisabled, type = 'text') => `<input autocomplete="off" ${type === 'date' ? 'data-slots="dmyh"' : undefined} ${type === 'date' ? 'placeholder="dd/mm/yyyy"' : undefined}  ${(disabled || forceDisabled) ? 'disabled' : ''} class="report-margin-bottom" ${id ? 'id="' + id + '"' : ''} name="${name}" value="${value || ''}">`;
+    const textarea = (name, value, id) => `<textarea autocomplete="off" ${disabled ? 'disabled' : ''} class="report-textarea" ${id ? 'id="' + id + '"' : ''} name="${name}" rows="${textareaRows}" columns="${textareaCols}">${value || ''}</textarea>`;
     const titleButton = 'SYS.LABEL.ADD_NEW_ROW'.t();
     const btnStyle = `
       position: absolute;
       right: 0;
     `;
 
-    const btnContainerStyle=`
+    const btnContainerStyle = `
       position: relative;
     `;
 
-    const button = (onClick) => `<button ${disabled ? 'disabled': ''} class="default-btn-control" title="${titleButton}" style="${btnStyle}" type="button" onclick="${onClick};">+</button>`;
+    const button = (onClick) => `<button ${disabled ? 'disabled' : ''} class="default-btn-control" title="${titleButton}" style="${btnStyle}" type="button" onclick="${onClick};">+</button>`;
 
     const inputBuilder = (prefix, name, builderFunc, onClick, uuid) => {
-      if(paramObj) {
+      if (paramObj) {
         realParam = name.replace(prefix, '').trim();
         values = paramObj[realParam];
 
         if (values && Array.isArray(values) && values.length > 0) {
-          let html='';
+          let html = '';
           for (let i = 0; i < values.length; i++) {
-            if(i === 0) {
+            if (i === 0) {
               html += `<div style="${btnContainerStyle}"> ${builderFunc(name, values[i], uuid)} ${button(onClick)}</div>`;
             } else {
               html += builderFunc(name, values[i]);
@@ -317,7 +317,7 @@ export class StringUtil {
           }
 
           newSource = newSource.replace(`{{${name}}}`, html);
-          
+
         } else {
           const html = `<div style="${btnContainerStyle}">${builderFunc(name, '', uuid)} ${button(onClick)}</div>`;
           newSource = newSource.replace(`{{${name}}}`, html);
@@ -328,20 +328,20 @@ export class StringUtil {
       }
     }
 
-    while(curMatch = rxp.exec(stringSource)) {
+    while (curMatch = rxp.exec(stringSource)) {
       if (curMatch.index < skipIndex) {
         continue;
       }
 
       const param = curMatch[1];
 
-      
+
       if (paramObj && Array.isArray(paramObj)) {
         let html = '';
-        for(let i = 0 ; i < paramObj.length; i++) {
+        for (let i = 0; i < paramObj.length; i++) {
           let newRow = stringSource;
-          for(let field in paramObj[i]) {
-            if(field.endsWith('__multi__')) {
+          for (let field in paramObj[i]) {
+            if (field.endsWith('__multi__')) {
               const tdContent = textarea(namePrefix + field, paramObj[i][field]);
               newRow = newRow.replace(`{{${field}}}`, tdContent);
             } else {
@@ -353,9 +353,9 @@ export class StringUtil {
         }
 
         newSource = html;
-      } else if(param && param.trim().startsWith(HtmlPrefixParser.REPEAT)) { //repeat input
+      } else if (param && param.trim().startsWith(HtmlPrefixParser.REPEAT)) { //repeat input
         const uuid = genUUID();
-        
+
         const onClick = `
           const parentElement = document.getElementById('${uuid}').parentElement.parentElement;
           const newTag = document.createElement('input');
@@ -364,12 +364,12 @@ export class StringUtil {
           newTag.classList.add('', 'report-margin-bottom');
           parentElement.appendChild(newTag);
         `;
-        
+
         inputBuilder(HtmlPrefixParser.REPEAT, param, input, onClick, uuid);
-        
+
       } else if (param && param.trim().startsWith(HtmlPrefixParser.REPEAT_MULTI)) {//repea multi 
         const uuid = genUUID();
-        
+
         const onClick = `
           const parentElement = document.getElementById('${uuid}').parentElement.parentElement;
           const newTag = document.createElement('textarea');
@@ -404,8 +404,8 @@ export class StringUtil {
         const fieldName = parts[indexField].replace(HtmlPrefixParser.READONLY, '');
         const replaceContent = curMatch[0];
         if (helperFunction) {
-          const res = await import('/src/lib/helper_function.js');
-          if(res[helperFunction]) {
+          const res = await import('$src/lib/helper_function.js');
+          if (res[helperFunction]) {
             const value = res[helperFunction](paramObj[fieldName] || '');
             const html = `${value}`;
             newSource = newSource.replace(replaceContent, html);
@@ -416,39 +416,39 @@ export class StringUtil {
           newSource = newSource.replace(replaceContent, html);
         }
 
-        
+
       } else if (param && param.trim().startsWith(HtmlPrefixParser.LINK)) { // link to other content
         const realParam = param.replace(HtmlPrefixParser.LINK, '').trim();
         const value = paramObj[realParam] || '';
         const html = `${value}`;
         newSource = newSource.replace(curMatch[0], html);
       } else if (param && param.trim().startsWith(HtmlPrefixParser.EACH_LOOP)) { //each loop
-          const nextOpenEachBlockIndex = curMatch.input.indexOf(`{{${HtmlPrefixParser.EACH_LOOP}`, curMatch.index + 1);
+        const nextOpenEachBlockIndex = curMatch.input.indexOf(`{{${HtmlPrefixParser.EACH_LOOP}`, curMatch.index + 1);
 
-          startEachLoopIndex = curMatch.index + curMatch[0].length;
-          startEachLoopMatch = curMatch[0];
-          startEachLoopVar = curMatch[1];
-          skipIndex = curMatch.input.indexOf(`{{${HtmlPrefixParser.END_EACH_LOOP}`, skipIndex + 1);
-  
-          if (nextOpenEachBlockIndex < skipIndex) {
-            isNestedEachBlock = true;
-            startNestedEachLoopIndex = curMatch.index;
-          } else {
-            isNestedEachBlock = false;
-            if (skipIndex < 0) {
-              console.error(`Syntax error: Wrong end of  ${curMatch[0]}. Make sure end of each loop is: {{/each}}`)
-            }
+        startEachLoopIndex = curMatch.index + curMatch[0].length;
+        startEachLoopMatch = curMatch[0];
+        startEachLoopVar = curMatch[1];
+        skipIndex = curMatch.input.indexOf(`{{${HtmlPrefixParser.END_EACH_LOOP}`, skipIndex + 1);
+
+        if (nextOpenEachBlockIndex < skipIndex) {
+          isNestedEachBlock = true;
+          startNestedEachLoopIndex = curMatch.index;
+        } else {
+          isNestedEachBlock = false;
+          if (skipIndex < 0) {
+            console.error(`Syntax error: Wrong end of  ${curMatch[0]}. Make sure end of each loop is: {{/each}}`)
           }
+        }
       } else if (param && param.trim().startsWith(HtmlPrefixParser.END_EACH_LOOP)) {
-        if(isNestedEachBlock) {
+        if (isNestedEachBlock) {
           const endNestedEachLoopIndex = curMatch.input.indexOf(`{{${HtmlPrefixParser.END_EACH_LOOP}`, curMatch.index + 1);
-          if(endNestedEachLoopIndex >= 0) {
+          if (endNestedEachLoopIndex >= 0) {
             const replaceContent = curMatch.input.substring(startNestedEachLoopIndex, endNestedEachLoopIndex + curMatch[0].length + 1);
-            const normalizedContent =  StringUtil.transformToHandlesbarTemplate(replaceContent);
+            const normalizedContent = StringUtil.transformToHandlesbarTemplate(replaceContent);
             const html = compileTemplate(normalizedContent, paramObj);
             newSource = newSource.replace(replaceContent, html);
           }
-          
+
 
         } else {
           const addUUID = genUUID();
@@ -460,13 +460,13 @@ export class StringUtil {
 
           let html, blankHTML;
           if (paramObj && paramObj[fieldName]) {
-            html = await StringUtil.replaceParamAsTag (content, paramObj[fieldName], disabled, textareaRows, textareaCols, namePrefix);
-            blankHTML = await StringUtil.replaceParamAsTag (content, {}, disabled, textareaRows, textareaCols, namePrefix);
+            html = await StringUtil.replaceParamAsTag(content, paramObj[fieldName], disabled, textareaRows, textareaCols, namePrefix);
+            blankHTML = await StringUtil.replaceParamAsTag(content, {}, disabled, textareaRows, textareaCols, namePrefix);
           } else {
-            html = await StringUtil.replaceParamAsTag (content, {}, disabled, textareaRows, textareaCols, namePrefix);
+            html = await StringUtil.replaceParamAsTag(content, {}, disabled, textareaRows, textareaCols, namePrefix);
             blankHTML = html;
           }
-                  
+
           const onAddClick = `
             const table = (document.getElementById('${addUUID}').nextSibling).nextSibling;
             const tbody = table.tBodies[0];
@@ -474,7 +474,7 @@ export class StringUtil {
           `;
 
 
-          
+
           const onRemoveClick = `
             const table = document.getElementById('${removeUUID}').nextSibling;
             const tbody = table.tBodies[0];
@@ -500,14 +500,14 @@ export class StringUtil {
         }
 
         const fieldName = parts[indexField].replace(HtmlPrefixParser.READONLY, '');
-        
+
         let html;
-        if(fieldName.endsWith('__date__')) {
+        if (fieldName.endsWith('__date__')) {
           const _fieldName = fieldName.replace('__date__', '');
           const value = paramObj[_fieldName] || '';
           html = input(namePrefix + (_fieldName), value, undefined, false, 'date');
         } else {
-          if(fieldName.endsWith('__multi__')) {
+          if (fieldName.endsWith('__multi__')) {
             const value = paramObj[fieldName] || '';
             html = textarea(namePrefix + fieldName, value);
           } else {
@@ -516,7 +516,7 @@ export class StringUtil {
           }
         }
 
-        if(parts.length > 1) {
+        if (parts.length > 1) {
           newSource = newSource.replace(curMatch[0], html);
         } else {
           newSource = newSource.replace(`{{${fieldName}}}`, html);
@@ -531,11 +531,11 @@ export class StringUtil {
     let newSource = stringSource;
     let rxp, curMatch;
     //remove button tag
-    newSource = stringSource.replace(/<button [^>]+>(.*?)<\/button>/g, ''); 
+    newSource = stringSource.replace(/<button [^>]+>(.*?)<\/button>/g, '');
 
     //replace input tag
     rxp = /<input [^>]+>/g;
-    while(curMatch = rxp.exec(stringSource)) {
+    while (curMatch = rxp.exec(stringSource)) {
       const tag = curMatch[0];
       const divEle = document.createElement('div');
       divEle.innerHTML = tag;
@@ -545,8 +545,8 @@ export class StringUtil {
     }
 
     //replace textarea tag
-    rxp =/<textarea [^>]+>(.*?)<\/textarea>/g;
-    while(curMatch = rxp.exec(stringSource)) {
+    rxp = /<textarea [^>]+>(.*?)<\/textarea>/g;
+    while (curMatch = rxp.exec(stringSource)) {
       const tag = curMatch[0];
       const divEle = document.createElement('div');
       divEle.innerHTML = tag;
@@ -558,16 +558,16 @@ export class StringUtil {
     return newSource;
   }
 
-  static transformToHandlesbarTemplate (template) {
+  static transformToHandlesbarTemplate(template) {
     let newSource = template;
     //remove _#, _asFormat, __date__
     newSource = newSource.replace(/#_|_asFormat|__date__/g, '');
 
-    const  rxp = /{{(.*)}}/g;
+    const rxp = /{{(.*)}}/g;
     let curMatch;
-    while(curMatch = rxp.exec(newSource)) {
+    while (curMatch = rxp.exec(newSource)) {
       const fieldName = curMatch[1];
-      if(fieldName.endsWith('__multi__')) {
+      if (fieldName.endsWith('__multi__')) {
         newSource = newSource.replaceAfter(`${curMatch[0]}`, `{${curMatch[0]}}`, curMatch.index);
       }
     }
@@ -575,16 +575,29 @@ export class StringUtil {
     return newSource;
   }
 
-  static normalizeParam (paramAsString) {
-   return paramAsString.replace(/\\n/g, '<br/>');
+  static normalizeParam(paramAsString) {
+    return paramAsString.replace(/\\n/g, '<br/>');
   }
 
   static normalizeKey = (key) => {
-    if(typeof key !== 'string'){
+    if (typeof key !== 'string') {
       return key
     }
-    
+
     key = key.removeExtraSpace()
     return key.toLowerCase();
+  }
+
+  static randomChars(length, source = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz") {
+    let result = '';
+    const charactersLength = source.length;
+    for (let i = 0; i < length; i++) {
+      result += source.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
+  static toHex (source) {
+    return Buffer.from(source).toString('hex');
   }
 }

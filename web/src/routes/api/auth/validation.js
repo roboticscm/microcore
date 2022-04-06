@@ -1,6 +1,6 @@
-import { validate as loginValidate } from '/src/components/login/validation';
-import { validate as forgotPasswordValidate } from '/src/components/forgot-password/validation';
-import { validate as resetPasswordValidate } from '/src/components/reset-password/validation';
+import { validate as loginValidate } from '$components/login/validation';
+import { validate as forgotPasswordValidate } from '$components/forgot-password/validation';
+import { validate as resetPasswordValidate } from '$components/reset-password/validation';
 
 export const validateLogin = (body) => {
     return loginValidate(body, true);

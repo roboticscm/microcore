@@ -1,5 +1,5 @@
 import { CommonValidation } from '$lib/common-validation';
-import { config } from '/src/config/config';
+import { config } from '$src/config/config';
 
 export const validate = (form, serverSide = false) => {
   const error = {};

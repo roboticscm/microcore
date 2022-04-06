@@ -1,10 +1,10 @@
 <script>
 	import { t, locale, loadResource } from '$lib/i18n';
 	import { SvgIcon } from '$lib/constants';
-	import { AppStore } from '/src/store/app';
+	import { AppStore } from '$src/store/app';
 	import { onMount } from 'svelte';
-	import { LoginInfo } from '/src/store/login-info';
-	import { SettingService } from '/src/services/setting';
+	import { LoginInfo } from '$src/store/login-info';
+	import { SettingService } from '$src/services/setting';
 
 	export let saveDb = false;
 

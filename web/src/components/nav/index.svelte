@@ -1,15 +1,14 @@
 <script>
 	import { Dropdown } from '$lib/dropdown';
 	import { t } from '$lib/i18n';	
-	import Locale from '/src/components/locale/index.svelte';
-	import { LoginInfo } from '/src/store/login-info';
+	import Locale from '$components/locale/index.svelte';
+	import { LoginInfo } from '$src/store/login-info';
 	import { someParentHasClass } from '$lib/dom';
 	import { onMount } from 'svelte';
 	import { genUUID } from '$lib/random';
 	import { goto } from '$app/navigation';
-	import { logout } from '$lib/authentication';
 	import { AuthService } from '../login/service';
-	import { getToken } from '$lib/local-storage';
+	import { cleanup, getToken } from '$lib/local-storage';
 	import { getPublicIp } from '$lib/util';
 
 	export let embedMode = false;
@@ -59,7 +58,7 @@
 					refreshToken: getToken().refreshToken,
 					ip: publicIp,
 				}).finally(() => {
-					logout();
+					cleanup();
 				})
 				
 				break;

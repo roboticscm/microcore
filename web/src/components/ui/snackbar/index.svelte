@@ -27,6 +27,10 @@
     show($t('sys.msg.copy success') + (StringUtil.isEmpty(extraMsg) ? '' : '. ' + extraMsg));
   };
 
+  export const showCopyToClipboardSuccess = (extraMsg = '') => {
+    show($t('sys.msg.copy to clipboard success') + (StringUtil.isEmpty(extraMsg) ? '' : '. ' + extraMsg));
+  };
+
   export const showDeleteSuccess = (extraMsg = '') => {
     show($t('sys.msg.delete success') + (StringUtil.isEmpty(extraMsg) ? '' : '. ' + extraMsg));
   };

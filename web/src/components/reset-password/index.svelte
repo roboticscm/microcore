@@ -1,22 +1,22 @@
 <script>
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { t } from '$lib/i18n';
-	import TextInput from '/src/components/ui/text-input/index.svelte';
-	import Button from '/src/components/ui/button/index.svelte';
-	import { ButtonType } from '/src/components/ui/button/types';
-	import Locale from '/src/components/locale/index.svelte';
+	import TextInput from '$components/ui/text-input/index.svelte';
+	import Button from '$components/ui/button/index.svelte';
+	import { ButtonType } from '$components/ui/button/types';
+	import Locale from '$components/locale/index.svelte';
 	import Form from '$lib/form/form';
 	import { Partner } from './types';
 	import { validate } from './validation';
-	import Error from '/src/components/ui/error/index.svelte';
+	import Error from '$components/ui/error/index.svelte';
 	import { Store } from './store';
-	import Snackbar from '/src/components/ui/snackbar/index.svelte';
+	import Snackbar from '$components/ui/snackbar/index.svelte';
 	import _ from 'lodash';
 	import { goto } from '$app/navigation';
 	import { Browser } from '$lib/browser';
 	import { getPublicIp } from '$lib/util';
 	import { getUrlParam } from '$lib/url';
-	import { config } from '/src/config/config';
+	import { config } from '$src/config/config';
 
 	const dispatch = createEventDispatcher();
 	const store = new Store();

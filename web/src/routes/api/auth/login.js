@@ -4,16 +4,17 @@ import qrcode from 'qrcode';
 import { verifyCode } from '$lib/2fa';
 import { query } from '$lib/db/template';
 import { replaceToken, encodePassword } from '$lib/encode';
-import { restError, restOkWithHeader } from '$lib/rest';
+import { restError, restOk, restOkWithHeader } from '$lib/rest';
 import { validateLogin } from './validation';
 import { objectIsEmpty } from '$lib/object';
-import { generateToken, extractDeviceDesc } from '/src/hooks';
+import {  setCookieHeader } from '$src/hooks';
+import { generateToken } from '$lib/token';
+import { extractDeviceDesc } from '$lib/browser';
 import { getKnexInstance } from '$lib/db/util';
 import { dev } from '$app/env';
-import { setCookieHeader } from '$lib/authentication';
 
 // Login
-export const post = async ({ request }) => {
+export const post = async ({ request, locals }) => {
     try {
         const body = await request.json();
 
@@ -73,8 +74,14 @@ export const post = async ({ request }) => {
                             accountAvatar: record.accountAvatar,
                         }
                     };
-                    
-                    return restOkWithHeader(res, setCookieHeader(replaceToken(accessToken, body.deviceId), !dev), 302);
+                    locals.data = {
+                        userId: record.id,
+                        username: body.username,
+                        deviceId: body.deviceId,
+                        accessToken: replaceToken(accessToken, body.deviceId),
+                    }
+                   
+                    return restOkWithHeader(res, {...setCookieHeader(locals.data), location: '/'}, 302);
                 } catch (err) {
                     return restError({ unknownError: 'sys.msg.authentication failed' }, 422, err)
                 }

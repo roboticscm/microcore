@@ -1,5 +1,5 @@
 import { post } from "$lib/http";
-import { LoginInfo } from "/src/store/login-info";
+import { LoginInfo } from "$src/store/login-info";
 
 
 export class SettingService {

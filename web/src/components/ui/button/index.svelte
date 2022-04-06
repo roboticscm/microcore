@@ -258,7 +258,7 @@
     }
 
     if (icon && !icon.includes('<')) {
-      import(/* @vite-ignore */ `/src/icons/${icon}.svelte`).then((res) => {
+      import(/* @vite-ignore */ `$src/icons/${icon}.svelte`).then((res) => {
         IconComponent = res.default;
       });
     }

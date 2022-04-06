@@ -44,3 +44,8 @@ export class Browser {
     return desc;
   }
 }
+
+
+export const extractDeviceDesc = (request) => {
+  return Browser.getAgentDesc(request.headers.get('user-agent'))
+}

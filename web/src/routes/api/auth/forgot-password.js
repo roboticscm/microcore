@@ -3,7 +3,7 @@ import { getKnexInstance } from '$lib/db/util';
 import { validateForgotPassoword } from './validation';
 import { objectIsEmpty } from '$lib/object';
 import { sendMail } from '$lib/mail';
-import { config } from '/src/config/config';
+import { config } from '$src/config/config';
 
 
 export const post = async ({ request }) => {

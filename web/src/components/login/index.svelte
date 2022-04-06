@@ -1,25 +1,25 @@
 <script>
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { t } from '$lib/i18n';
-	import TextInput from '/src/components/ui/text-input/index.svelte';
-	import Button from '/src/components/ui/button/index.svelte';
-	import { ButtonType } from '/src/components/ui/button/types';
+	import TextInput from '$components/ui/text-input/index.svelte';
+	import Button from '$components/ui/button/index.svelte';
+	import { ButtonType } from '$components/ui/button/types';
 	import { App } from '$lib/constants';
-	import Locale from '/src/components/locale/index.svelte';
+	import Locale from '$components/locale/index.svelte';
 	import Form from '$lib/form/form';
 	import { Partner } from './types';
 	import { validate } from './validation';
-	import Error from '/src/components/ui/error/index.svelte';
+	import Error from '$components/ui/error/index.svelte';
 	import { Store } from './store';
-	import Snackbar from '/src/components/ui/snackbar/index.svelte';
+	import Snackbar from '$components/ui/snackbar/index.svelte';
 	import _ from 'lodash';
 	import { goto } from '$app/navigation';
 	import { Browser } from '$lib/browser';
-	import { LoginInfo } from '/src/store/login-info';
+	import { LoginInfo } from '$src/store/login-info';
 	import { saveToken } from '$lib/local-storage';
 	import { getPublicIp } from '$lib/util';
 	import QRCode from 'qrcode';
-	import { config } from '/src/config/config';
+	import { config } from '$src/config/config';
 	
 	const dispatch = createEventDispatcher();
 	const store = new Store();
@@ -67,29 +67,31 @@
 					
 				} else {
 					snackbarRef.showLoginSuccess();
-					const body = await res.json();
+					// const body = await res.json();
 					
-					LoginInfo.userId$.next(body.loginInfo.userId);
-					LoginInfo.username$.next(body.loginInfo.username);
-					LoginInfo.displayName$.next(body.loginInfo.displayName);
-					LoginInfo.accountAvatar$.next(body.loginInfo.accountAvatar);
-					//TODO
-					localStorage.setItem('userId', body.loginInfo.userId);
-					localStorage.setItem('username', body.loginInfo.username );
-					localStorage.setItem('displayName', body.loginInfo.displayName || '');
+					// LoginInfo.userId$.next(body.loginInfo.userId);
+					// LoginInfo.username$.next(body.loginInfo.username);
+					// LoginInfo.displayName$.next(body.loginInfo.displayName);
+					// LoginInfo.accountAvatar$.next(body.loginInfo.accountAvatar);
+					// //TODO
+					// localStorage.setItem('userId', body.loginInfo.userId);
+					// localStorage.setItem('username', body.loginInfo.username );
+					// localStorage.setItem('displayName', body.loginInfo.displayName || '');
 					
-					saveToken({
-						remember: true,
-						accessToken: body.accessToken,
-						refreshToken: body.refreshToken,
-					})
-					setTimeout(() => {
-						location.reload();
-						// goto('/views/dashboard')
-					}, 2000);
+					// saveToken({
+					// 	remember: true,
+					// 	accessToken: body.accessToken,
+					// 	refreshToken: body.refreshToken,
+					// })
+					// setTimeout(() => {
+					// 	// location.reload();
+					// 	// goto('/views/dashboard')
+					// }, 2000);
+					location.reload();
 				}
 			})
 			.catch((err) => {
+				console.error('2 ', err)
 				snackbarRef.showUnknownError(_.isString(err) ? $t(err) : $t(err.unknownError));
 			})
 			.finally(() => (isRunning = false));

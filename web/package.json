@@ -30,6 +30,7 @@
     "bowser": "^2.11.0",
     "chart.js": "^3.7.1",
     "cookie": "^0.4.2",
+    "crypto-js": "^4.1.1",
     "handlebars": "^4.7.7",
     "js-sha256": "^0.9.0",
     "json-parse-bigint": "^1.0.4",

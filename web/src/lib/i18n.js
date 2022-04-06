@@ -1,6 +1,6 @@
 import { derived, writable } from "svelte/store";
 import { dev } from '$app/env';
-import { AppStore } from "/src/store/app";
+import { AppStore } from "$src/store/app";
 import { StringUtil } from "./string-util";
 
 export const locale = writable(undefined);
