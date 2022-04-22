@@ -4,9 +4,11 @@
 		"baseUrl": ".",
 		"paths": {
 			"$src/*": ["src/*"],
-			"$lib/*": ["src/lib/*"],
+			"$lib":["src/lib"],
+  			"$lib/*":["src/lib/*"],
+			"$icons/*": ["src/icons/*"],
 			"$components/*": ["src/components/*"],
-			
+			"$ui/*": ["src/components/ui/*"],
 		}
 	},
 	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.svelte"]

@@ -1,29 +1,5 @@
-<script context="module">
-	export const load = async ({ fetch, session, url }) => {
-		const res = await fetch('/api/auth/need-login', {
-			method: 'POST',
-			body: JSON.stringify({
-				pathname: url.pathname,
-				session
-			})
-		});
-
-		if (res.status > 400) {
-			return (await res.json()).error
-		}
-
-		return {
-			props: {}
-		};
-	};
-</script>
-
 <script>
-	import { SDate } from '$lib/date';
 	import { t } from '$lib/i18n';
-	import { config } from '$src/config/config';
-	import { LoginInfo } from '$src/store/login-info';
-	import Card from '$components/ui/card/index.svelte';
 	import { onMount } from 'svelte';
 	import Line from 'svelte-chartjs/src/Line.svelte';
 	import ProfileSummary from '$components/profile-summary/index.svelte';

@@ -5,28 +5,54 @@
     background: var(--base-color);
     color: var(--base-background);
     box-shadow: rgba(255, 255, 255, 0.24) 0px 3px 8px;
-    &__header {
-        text-align: center;
-        white-space: nowrap;
+    display: flex;
+    column-gap: $default-spacing;
+    &__avatar {
+        flex: 0;
+        min-width: 50px;
+        max-width: 50px;
+        i {
+            font-size: 3rem;
+        }
     }
 
-    &__center-body {
-        margin-top: $large-spacing;
-        text-align: center;
-        font-weight: bold;
-        font-size: 1.2rem;
+    &__content {
+        flex: 1;
+        overflow: hidden;
+        &__header {
+           
+            text-align: center;
+            white-space: nowrap;
+            text-transform: capitalize;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    
+        &__center-body {
+            margin-top: $large-spacing;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+    
+        &__left-body {
+            text-align: left;
+        }
     }
-
-    &__left-body {
-        text-align: left;
-    }
+    
 }
 
 @media screen and (max-width: 768px) {
     .card {
         margin-top: $default-spacing;
-        &__header {
-            font-size: 0.8rem;
+        &__avatar {
+            display: none;
+        }
+        
+        &__content {
+            &__header {
+                font-size: 0.8rem;
+            }
         }
     }
     

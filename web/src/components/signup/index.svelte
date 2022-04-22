@@ -15,6 +15,7 @@
 	import _ from 'lodash';
 	import { config } from '$src/config/config';
 	import { goto } from '$app/navigation';
+	import { getTitle } from '$src/lib/url';
 
 	export let refId = '';
 
@@ -23,11 +24,11 @@
 
 	const resetForm = () => {
 		const f = new Form(new Partner());
-		if(refId) {
+		if (refId) {
 			f.referralId = refId;
 		}
 		return f;
-	}
+	};
 	let loaded = false;
 	let form = resetForm();
 	let isRunning = false;
@@ -57,23 +58,20 @@
 		store
 			.signUp(form.data())
 			.then(async (res) => {
-				if (res.status > 400) {
-					const err = await res.json();
-					if (err.unknownError) {
-						snackbarRef.showUnknownError($t(err.unknownError));
-					} else {
-						form.errors.errors = form.recordErrors(err.error);
-					}
-				} else {
-					snackbarRef.showSignupSuccess();
-					setTimeout(() => {
-						sessionStorage.setItem('currentPage', 'LOGIN')
-						location.href="/"
-					}, 3000);
-				}
+				snackbarRef.showSignupSuccess();
+				setTimeout(() => {
+					sessionStorage.setItem('currentPage', 'LOGIN');
+					location.href = '/';
+				}, 3000);
 			})
 			.catch((err) => {
-				snackbarRef.showUnknownError(_.isString(err) ? $t(err) : $t(err.unknownError));
+				if (err.unknownError) {
+					snackbarRef.showUnknownError(
+						_.isString(err) ? $t(err) : $t(err.unknownError) + ' ' + $t(err.errorDetail)
+					);
+				} else {
+					form.errors.errors = form.recordErrors(err);
+				}
 			})
 			.finally(() => (isRunning = false));
 	};
@@ -82,7 +80,7 @@
 <Snackbar bind:this={snackbarRef} />
 
 <svelte:head>
-	<title>{$t('sys.label.sign up')}</title>
+	<title>{getTitle($t('sys.label.sign up'))}</title>
 </svelte:head>
 {#if loaded}
 	<form
@@ -125,42 +123,46 @@
 							name="username"
 							bind:value={form.username}
 							label={$t('sys.label.username')}
+							required={true}
 							placeholder={$t('sys.label.type your username')}
 						/>
 						<Error {form} field="username" />
 					</div>
-					<div style="padding-top: 16px;">
+					<div>
 						<TextInput
 							type="search"
 							showSuffixIcon={true}
 							suffixIcon="<i class='fa fa-envelope' aria-hidden='true'></i>"
 							name="email"
 							bind:value={form.email}
+							required={true}
 							label={$t('sys.label.email')}
 							placeholder={$t('sys.label.type your email to activate the account')}
 						/>
 						<Error {form} field="email" />
 					</div>
-					<div style="padding-top: 16px;">
+					<div>
 						<TextInput
 							showSuffixIcon={true}
 							suffixIcon="<i class='fas fa-key'>"
 							name="password"
 							bind:value={form.password}
 							type="password"
+							required={true}
 							label={$t('sys.label.password')}
 							placeholder={$t('sys.label.enter your password')}
 						/>
 						<Error {form} field="password" replaceParams={[config.minPasswordLength]} />
 					</div>
 
-					<div style="padding-top: 16px;">
+					<div>
 						<TextInput
 							showSuffixIcon={true}
 							suffixIcon="<i class='fas fa-key'>"
 							name="confirmPassword"
 							bind:value={form.confirmPassword}
 							type="password"
+							required={true}
 							label={$t('sys.label.confirm password')}
 							placeholder={$t('sys.label.retype your password')}
 						/>
@@ -169,12 +171,16 @@
 
 					<div class="right-box nowrap" style="padding-top: 26px;">
 						{$t('sys.label.referral code')}:{@html App.SPACE_CODE}
-						<input name="referralId" style="width: 160px;" bind:value={form.referralId} class="form-control" />
+						<input
+							name="referralId"
+							style="width: 160px;"
+							bind:value={form.referralId}
+							class="form-control"
+						/>
 					</div>
 					<div class="right-box">
 						<Error {form} field="referralId" />
 					</div>
-					
 
 					<div class="center-box">
 						<Button
@@ -198,7 +204,10 @@
 					</div>
 					<div class="center-box">
 						<Button
-							on:click={() => {dispatch('changeMode', { mode: 'LOGIN' }); goto ('/');}}
+							on:click={() => {
+								dispatch('changeMode', { mode: 'LOGIN' });
+								goto('/');
+							}}
 							style="width: 60%; margin-top: 10px;"
 							type="button"
 							btnType={ButtonType.login}

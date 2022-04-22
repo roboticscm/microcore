@@ -6,20 +6,20 @@ export const isDebugMode = () => {
 
 export const info = (...message) => {
   if (isDebugMode()) {
-    console.log(message);
+    console.log(...message);
   }
 };
 
 export const infoSection = (section, ...message) => {
   if (isDebugMode()) {
     console.log(`---------${section}--------`);
-    console.log(message);
+    console.log(...message);
   }
 };
 
 export const error = (...message) => {
   if (isDebugMode()) {
-    console.error(message);
+    console.error(...message);
   }
 };
 

@@ -14,7 +14,7 @@ export const post = async ({ request }) => {
         if (!objectIsEmpty(error)) {
             return restError(error, 422, 'reset passowrd validation error')
         }
-        
+
         //get user from auth_token which the session
         const user = await getUser(body.session)
         // generate and update password
@@ -46,10 +46,10 @@ const getUser = async (session) => {
     return new Promise((resolve, reject) => {
         knex.raw(sql, [session])
             .then((res) => {
-                if(res && res.rows && res.rows.length > 0) {
+                if (res && res.rows && res.rows.length > 0) {
                     resolve(res.rows[0])
                 } else {
-                    reject({unknownError: 'sys.msg.link expired, please try again'})
+                    reject({ unknownError: 'sys.msg.link expired, please try again' })
                 }
             }).catch(reject)
             .finally(() => knex.destroy())
@@ -61,8 +61,8 @@ const updatePassword = async (userId, password) => {
 
     return new Promise((resolve, reject) => {
         knex('partner')
-            .update({password})
-            .where({id: userId})
+            .update({ password })
+            .where({ id: userId })
             .then((res) => {
                 resolve('ok')
             }).catch(reject)
@@ -81,19 +81,19 @@ const saveResetPasswordHistory = (userId, ip, deviceDesc, session) => {
     const knex = getKnexInstance();
     return new Promise((resolve, reject) => {
         knex.transaction((t) => {
-            return knex('login_detail')
-                .transacting(t)
+            knex('login_detail')
                 .insert(loginDetailPayload)
+                .transacting(t)
                 .then(() => {
                     return knex('auth_token')
+                        .where({ uuid: session })
                         .delete()
-                        .where({uuid: session})
+                        .transacting(t)
                 })
-                .then(() => {
-                    t.commit;
-                }).catch(() => t.rollback());
+                .then(t.commit)
+                .catch(t.rollback);
         }).then(resolve)
-        .catch((reject))
-        .finally(() => knex.destroy());
+            .catch((reject))
+            .finally(() => knex.destroy());
     });
 }

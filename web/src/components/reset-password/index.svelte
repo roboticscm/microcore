@@ -15,7 +15,7 @@
 	import { goto } from '$app/navigation';
 	import { Browser } from '$lib/browser';
 	import { getPublicIp } from '$lib/util';
-	import { getUrlParam } from '$lib/url';
+	import { getTitle, getUrlParam } from '$lib/url';
 	import { config } from '$src/config/config';
 
 	const dispatch = createEventDispatcher();
@@ -51,27 +51,24 @@
 			return false;
 		}
 		isRunning = true;
-		
+
 		store
-			.resetPassword({...form.data(), ip: publicIp, deviceDesc: Browser.getAgentDesc(), })
+			.resetPassword({ ...form.data(), ip: publicIp, deviceDesc: Browser.getAgentDesc() })
 			.then(async (res) => {
-				if (res.status > 400) {
-					const err = await res.json();
-					if(err.unknownError) {
-						snackbarRef.showUnknownError($t(err.unknownError));
-					} else {
-						form.errors.errors = form.recordErrors(err.error);
-					}
-				} else {
-					snackbarRef.showResetPasswordSuccess();
+				snackbarRef.showResetPasswordSuccess();
 					sessionStorage.setItem('currentPage', 'LOGIN');
 					setTimeout(() => {
 						goto('/');
-					}, 3000)
-				}
+					}, 3000);
 			})
 			.catch((err) => {
-				snackbarRef.showUnknownError(_.isString(err) ? $t(err) : $t(err.unknownError));
+				if (err.unknownError) {
+					snackbarRef.showUnknownError(
+						_.isString(err) ? $t(err) : $t(err.unknownError) + ' ' + $t(err.errorDetail)
+					);
+				} else {
+					form.errors.errors = form.recordErrors(err);
+				}
 			})
 			.finally(() => (isRunning = false));
 	};
@@ -80,7 +77,7 @@
 <Snackbar bind:this={snackbarRef} />
 
 <svelte:head>
-	<title>{$t('sys.label.reset password')}</title>
+	<title>{getTitle($t('sys.label.reset password'))}</title>
 </svelte:head>
 {#if loaded}
 	<form
@@ -127,7 +124,7 @@
 						/>
 						<Error {form} field="password" replaceParams={[config.minPasswordLength]} />
 					</div>
-					<div style="padding-top: 16px;">
+					<div>
 						<TextInput
 							showSuffixIcon={true}
 							suffixIcon="<i class='fas fa-key'>"
@@ -147,7 +144,7 @@
 							style="width: 80%; margin-top: 40px;"
 							type="submit"
 							text={$t('sys.button.change password')}
-							icon='<i class="fas fa-sync"/>'
+							icon="<i class='fas fa-sync'/>"
 							addClassName="btn-main btn-large"
 						/>
 					</div>
@@ -158,7 +155,10 @@
 					</div>
 					<div class="center-box">
 						<Button
-							on:click={() => {dispatch('changeMode', { mode: 'LOGIN' }); goto ('/');} }
+							on:click={() => {
+								dispatch('changeMode', { mode: 'LOGIN' });
+								goto('/');
+							}}
 							style="width: 60%; margin-top: 10px;"
 							type="button"
 							btnType={ButtonType.login}

@@ -1,5 +1,5 @@
 
-POST http://localhost/api/setting/save-setting
+POST http://localhost/api/setting/save
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyODAxNjY4Mjk3MzMyODg1NzM1IiwidXNlcm5hbWUiOiJraGFpLmx2IiwiZXhwIjoxNjU0NDE5MDEzLCJpYXQiOjE2NDg0MTkwMTN9.PwwPefSLjMI1Ctcev4_pFWoduxq-0_-S4i0K_Q7tZQYJKTa0aQPZXlHSkbrlz_t0nDVxjiVjrGydHhuCJZr5OtVfRbjE0aIf8Yvv_4FNOUBI7S4z5CJotuP23kTMRBAZ0vDL_WiLREPjqQcxeOqiDTxE4qkwGrI9687RXsNzYtU
 
@@ -14,12 +14,22 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyODAxN
 ###
 
 
-POST http://localhost/api/setting/find-setting
+POST http://localhost/api/setting/find
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyODAxNjY4Mjk3MzMyODg1NzM1IiwidXNlcm5hbWUiOiJraGFpLmx2IiwiZXhwIjoxNjU0NDE5MDEzLCJpYXQiOjE2NDg0MTkwMTN9.PwwPefSLjMI1Ctcev4_pFWoduxq-0_-S4i0K_Q7tZQYJKTa0aQPZXlHSkbrlz_t0nDVxjiVjrGydHhuCJZr5OtVfRbjE0aIf8Yvv_4FNOUBI7S4z5CJotuP23kTMRBAZ0vDL_WiLREPjqQcxeOqiDTxE4qkwGrI9687RXsNzYtU
 
 {
     "branchId": "1",
-    "menuId": "1",
+    "menuId": "2",
+    "deviceId": "xxxxx"
+}
+
+###
+
+POST http://localhost/api/setting/get-initial
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyODA3OTYwMjAyNzc3NzI1NDQwIiwidXNlcm5hbWUiOiJraGFpLmx2IiwiYWNjb3VudFR5cGUiOjQsImV4cCI6MTY1NjA1OTc1MSwiaWF0IjoxNjUwMDU5NzUxxxxxxfQ.Zcn7aFG6skzv49zs03wvyZ7axUnrZe6cBKjQvcOY4q-sxWZdBRtNzCBP0rOqPX1iJNM11TD41U-4Bc9LE9jRJ1tjzrf92qHMtD2NtvbS0_5gHvv7ZE2K4qkrzkuWUe4c66iuk4UX_RbkeUi7_JX5iOvV1I2_Y0aUZSRXBYwb4yw
+
+{
     "deviceId": "xxxxx"
 }

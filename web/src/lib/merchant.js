@@ -1,11 +1,10 @@
-import { SDate } from "./date"
+
 import { StringUtil } from "./string-util"
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import Base64 from 'crypto-js/enc-base64';
+import crypto from 'crypto';
 
-export const buildBinanceHeader = (body) => {
-    const timestamp = SDate.currentDateInMilli();
-    const nonce = StringUtil.randomChars(32).toUpperCase()
+export const buildBinanceHeader = (timestamp, nonce, body) => {
     return {
         "content-type": "application/json",
         "BinancePay-Timestamp": timestamp,
@@ -16,8 +15,10 @@ export const buildBinanceHeader = (body) => {
 }
 
 const buildBinancePaySignature = (timestamp, nonce, body) => {
-    const payload = timestamp + "\n" + nonce + "\n" + body + "\n";
-    const hmac = Base64.stringify(hmacSHA512(payload, import.meta.env.VITE_BINANCE_API_SECRET_KEY));
-    return StringUtil.toHex(hmac).toUpperCase();
+    const payloadToSign = timestamp + "\n" + nonce + "\n" + body + "\n";
+    return crypto
+        .createHmac('sha512', import.meta.env.VITE_BINANCE_API_SECRET_KEY)
+        .update(payloadToSign)
+        .digest('hex').toUpperCase();
 }
 

@@ -11,7 +11,7 @@ export const post = async ({request}) => {
 
         const error = await validateUpsertPartner(body);
         if (!objectIsEmpty(error)) {
-            return restError(error, 422, 'upsert partner validation error')
+            return restError(error, 422, {message: 'upsert partner validation error'})
         }
         const bodyPassword = body.password;
         // save blank password for first time

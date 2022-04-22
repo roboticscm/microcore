@@ -20,7 +20,7 @@
 </script>
 
 {#if form && form.errors.has(field)}
-  <span class={className} name={field} {style}>{errorText.countSubString('.') > 0 ? replaceParam($t(errorText)) : errorText}</span>
+  <span class={className} name={field} {style}>{errorText?.countSubString('.') > 0 ? replaceParam($t(errorText)) : errorText}</span>
 {/if}
 {#if errorMessage}
   <span class={className} name={field} {style}>{errorMessage}</span>

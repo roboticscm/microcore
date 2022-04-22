@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-node';
+import adapterNode from '@sveltejs/adapter-node';
 import preprocessor from 'svelte-preprocess';
 import path from 'path';
 
@@ -6,15 +6,16 @@ import path from 'path';
 const config = {
 	preprocess: preprocessor(),
 	kit: {
-		adapter: adapter({
-			
+		adapter: adapterNode({
+			entryPoint: 'src/server.js' 
 		}),
 		vite: {
 			resolve: {
 				alias: {
 					'$src': path.resolve('./src/'),
-					'$lib': path.resolve('./src/lib/'),
-					'$components': path.resolve('./src/components/')
+					'$icons': path.resolve('./src/icons/'),
+					'$components': path.resolve('./src/components/'),
+					'$ui': path.resolve('./src/components/ui/')
 				}
 			}
 		}
@@ -25,7 +26,7 @@ const config = {
 	},
 	vite: {
 		ssr:{
-			noExternal: ['chart.js']
+			noExternal: ['chart.js', '@fortawesome/*']
 		}
 	}
 };

@@ -2,7 +2,7 @@ import { post } from "$lib/http"
 
 export class AuthService {
     static forgotPassword = async (param) => {
-        return post('/api/auth/forgot-password', param);
+        return post('auth/forgot-password', param, false, false);
     }
 
 }

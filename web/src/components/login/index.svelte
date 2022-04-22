@@ -20,7 +20,8 @@
 	import { getPublicIp } from '$lib/util';
 	import QRCode from 'qrcode';
 	import { config } from '$src/config/config';
-	
+	import { getTitle } from '$src/lib/url';
+
 	const dispatch = createEventDispatcher();
 	const store = new Store();
 
@@ -55,44 +56,24 @@
 		}
 		isRunning = true;
 		store
-			.login({...form.data(), ip: publicIp, deviceId: Browser.getBrowserID()})
-			.then(async (res) => {
-				if (res.status > 400) {
-					const err = await res.json();
-					if(err.unknownError) {
-						snackbarRef.showUnknownError($t(err.unknownError));
-					} else {
-						form.errors.errors = form.recordErrors(err.error);
-					}
-					
-				} else {
-					snackbarRef.showLoginSuccess();
-					// const body = await res.json();
-					
-					// LoginInfo.userId$.next(body.loginInfo.userId);
-					// LoginInfo.username$.next(body.loginInfo.username);
-					// LoginInfo.displayName$.next(body.loginInfo.displayName);
-					// LoginInfo.accountAvatar$.next(body.loginInfo.accountAvatar);
-					// //TODO
-					// localStorage.setItem('userId', body.loginInfo.userId);
-					// localStorage.setItem('username', body.loginInfo.username );
-					// localStorage.setItem('displayName', body.loginInfo.displayName || '');
-					
-					// saveToken({
-					// 	remember: true,
-					// 	accessToken: body.accessToken,
-					// 	refreshToken: body.refreshToken,
-					// })
-					// setTimeout(() => {
-					// 	// location.reload();
-					// 	// goto('/views/dashboard')
-					// }, 2000);
-					location.reload();
-				}
+			.login({ ...form.data(), ip: publicIp, deviceId: Browser.getBrowserID() })
+			.then(({body}) => {
+				saveToken({
+					accessToken: body.accessToken,
+					refreshToken: body.refreshToken
+				});
+				snackbarRef.showLoginSuccess();
+				
+				location.href = '/';
 			})
 			.catch((err) => {
-				console.error('2 ', err)
-				snackbarRef.showUnknownError(_.isString(err) ? $t(err) : $t(err.unknownError));
+				if (err.unknownError) {
+					snackbarRef.showUnknownError(
+						_.isString(err) ? $t(err) : $t(err.unknownError) + ' ' + $t(err.errorDetail)
+					);
+				} else {
+					form.errors.errors = form.recordErrors(err);
+				}
 			})
 			.finally(() => (isRunning = false));
 	};
@@ -101,17 +82,17 @@
 		store.getNewId().then((value) => {
 			QRCode.toCanvas(qrCodeRef, `${value}`, { margin: 0, version: 3 }, (error) => {
 				if (error) {
-					console.error(error)
+					console.error(error);
 				}
 			});
-		})
-  	}
+		});
+	};
 </script>
 
 <Snackbar bind:this={snackbarRef} />
 
 <svelte:head>
-	<title>{$t('sys.label.login')}</title>
+	<title>{getTitle($t('sys.label.login'))}</title>
 </svelte:head>
 {#if loaded}
 	<form
@@ -135,8 +116,6 @@
 				<div class="center-text large-padding form-avatar">
 					<img src="/images/logo.png" class="logo" alt="Logo" />
 				</div>
-
-				
 			</div>
 
 			<div
@@ -153,14 +132,14 @@
 							type="search"
 							showSuffixIcon={true}
 							suffixIcon="<i class='far fa-id-badge'>"
-							name = "username"
+							name="username"
 							bind:value={form.username}
 							label={$t('sys.label.username')}
 							placeholder={$t('sys.label.type your username')}
 						/>
 						<Error {form} field="username" />
 					</div>
-					<div style="padding-top: 16px;">
+					<div>
 						<TextInput
 							showSuffixIcon={true}
 							suffixIcon="<i class='fas fa-key'>"
@@ -173,7 +152,14 @@
 						<Error {form} field="password" replaceParams={[config.minPasswordLength]} />
 					</div>
 
-					<div class="right-box link" style="padding-top: 16px;" on:click={() => {dispatch('changeMode', { mode: 'FORGOT_PASSWORD' }); goto ('/');}}>
+					<div
+						class="right-box link"
+						style="padding-top: 16px;"
+						on:click={() => {
+							dispatch('changeMode', { mode: 'FORGOT_PASSWORD' });
+							goto('/');
+						}}
+					>
 						{$t('sys.label.forgot Password')}
 					</div>
 
@@ -197,7 +183,10 @@
 					</div>
 					<div class="center-box">
 						<Button
-							on:click={() => {dispatch('changeMode', { mode: 'SIGN_UP' }); goto ('/');}}
+							on:click={() => {
+								dispatch('changeMode', { mode: 'SIGN_UP' });
+								goto('/');
+							}}
 							style="width: 60%; margin-top: 10px;"
 							type="button"
 							icon="<i class='fas fa-file-signature'>"
@@ -214,4 +203,3 @@
 		<div class="loading">Loading...</div>
 	</div>
 {/if}
-

@@ -1,58 +1,43 @@
 <script context="module">
 	import { loadResource } from '$lib/i18n';
-	
-	export const load = async ({session, fetch, url}) => {
-		const res = await fetch('/api/auth/need-login', {
-			method: 'POST',
-			body: JSON.stringify({
-				pathname: url.pathname,
-				session
-			})
-		});
-		if(res.status < 400 && url.pathname !== '/views/dashboard') {
-			return {
-				status: 302,
-				redirect: "/views/dashboard",
+
+	export const load = async ({ session, fetch, url }) => {
+		try {
+			const res = await fetch(`${import.meta.env.VITE_API_PREFIX}auth/need-login`, {
+				method: 'POST',
+				body: JSON.stringify({
+					pathname: url.pathname,
+					session
+				})
+			});
+			
+			if (res.status < 300 && url.pathname !== '/views/dashboard') {
+				return {
+					status: 302,
+					redirect: '/views/dashboard'
+				};
+			} else {
+				const _session = url.searchParams.get('session');
+				const needLogin = url.searchParams.get('mode') === 'login';
+				const refId = url.searchParams.get('rid');
+				const resourcePromise = loadResource(fetch);
+				await Promise.all([resourcePromise]);
+				return {
+					status: 200,
+					props: {
+						loaded: true,
+						session: _session,
+						needLogin,
+						refId
+					}
+				};
 			}
-		} else {
-			const _session = url.searchParams.get('session');
-			const needLogin = url.searchParams.get('mode')==='login';
-			const refId = url.searchParams.get('rid');
-			const resourcePromise = loadResource(fetch);
-			await Promise.all([resourcePromise]);
+		} catch (err) {
+			error(err)
 			return {
-				status: 200,
-				props: {
-					loaded: true,
-					session: _session,
-					needLogin,
-					refId
-				}
-			};
+
+			}
 		}
-		
-
-		// const res = await fetch('/api/auth/login', {
-		//     method: 'post',
-		//     body: '{}'
-		// });
-
-		// if(res.ok) {
-		//     const data = await res.json();
-		//     return {
-		//         props: {
-		//             loaded: true,
-		//             data
-		//         },
-		//     }
-		// }
-
-		// return {
-		//     status: res.status,
-		//     body: {
-		//         error: new Error('Unkown error')
-		//     }
-		// }
 	};
 </script>
 
@@ -70,6 +55,8 @@
 	import { Browser } from '$lib/browser';
 	import { locale } from '$lib/i18n';
 	import { LoginInfo } from '$src/store/login-info';
+	import { error } from '$src/lib/log';
+	import { goto } from '$app/navigation';
 
 	export let loaded = false;
 	export let session;
@@ -83,7 +70,7 @@
 	let mode = 'LOGIN';
 
 	const onCheck = () => {
-		fetch(`/api/2fa/google-auth`, {
+		fetch(`2fa/google-auth`, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
@@ -100,8 +87,8 @@
 
 	const onChangeMode = (e) => {
 		mode = e.detail.mode;
-		sessionStorage.setItem('currentPage', mode)
-	}
+		sessionStorage.setItem('currentPage', mode);
+	};
 	onMount(() => {
 		mode = needLogin ? 'LOGIN' : sessionStorage.getItem('currentPage') || 'LOGIN';
 		Browser.getAgentDesc();
@@ -120,14 +107,12 @@
 		<ResetPasswordForm on:changeMode={onChangeMode} />
 	{:else if refId}
 		<SignupForm {refId} on:changeMode={onChangeMode} />
+	{:else if mode === 'LOGIN'}
+		<LoginForm on:changeMode={onChangeMode} />
+	{:else if mode === 'SIGN_UP'}
+		<SignupForm on:changeMode={onChangeMode} />
 	{:else}
-		{#if mode === 'LOGIN'}
-			<LoginForm on:changeMode={onChangeMode} />
-		{:else if mode === 'SIGN_UP'}
-			<SignupForm on:changeMode={onChangeMode} />
-		{:else}
-			<ForgotPasswordForm on:changeMode={onChangeMode} />
-		{/if}
+		<ForgotPasswordForm on:changeMode={onChangeMode} />
 	{/if}
 {/if}
 <!-- <img src="{data.qrcode}" alt="">

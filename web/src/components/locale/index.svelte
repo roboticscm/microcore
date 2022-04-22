@@ -21,7 +21,7 @@
 			$locale = 'vi';
 		}
 
-		if(saveDb) {
+		if (saveDb) {
 			SettingService.saveUserSetting(['locale'], [$locale]);
 		} else {
 			localStorage.setItem('locale', $locale);
@@ -29,22 +29,10 @@
 	};
 
 	onMount(() => {
-		loadResource(fetch).then(() => {
-			if(saveDb) {
-			// TODO load db
-			} else {
-				const savedLocale = localStorage.getItem('locale');
-				if(savedLocale) {
-					$locale = savedLocale;
-				}
-			}
-		});
-		
-
 		const subscription = notify$.subscribe(async (res) => {
-			if(res && res.table === 'resource') {
+			if (res && res.table === 'resource') {
 				const oldValue = locale$.value;
-				$locale = "";
+				$locale = '';
 				await loadResource(fetch);
 				$locale = oldValue;
 			}
@@ -52,8 +40,8 @@
 
 		return () => {
 			subscription && subscription.unsubscribe();
-		}
-	})
+		};
+	});
 </script>
 
 <div
@@ -71,7 +59,7 @@
 </div>
 
 <style>
-    .country-flag {
+	.country-flag {
 		position: absolute;
 		width: 24px;
 		height: 24px;

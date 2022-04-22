@@ -4,11 +4,10 @@ GET http://localhost:3000/api/auth/api.json
 ###
 POST http://localhost/api/auth/login
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjkzNzc2MDc2MzAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJyb290IiwiZnVsbE5hbWUiOiJUT0RPLi4uIn0.xKlSPYS3E98BuNkJsZxTtjvSaBviDflffMaMexxV_WCGbY8ARy1iSTuPbXIwngXQml6u7gh6OCjkpMyygm8i_X135wgAp08g541-_hh8CdgiZe5CJTx3u0Oqr6vvx1ibPiKHNeBmkVZ_OpjyCWGdiAco1QBzqGWTNDv7DIh83CM
 
 {
     "username": "khai.lv",
-    "password": "2020",
+    "password": "2019",
     "deviceId": "xxxxx"
 }
 
@@ -28,7 +27,7 @@ POST http://localhost/api/auth/forgot-password
 Content-Type: application/json
 
 {
-    "email": "roboticscm2020@gmail.com",
+    "email": "roboticscm2018@gmail.com",
     "subject": "Lay lai mat khau",
     "html": "Vui long click vao link sau"
 }
@@ -49,8 +48,17 @@ POST http://localhost/api/auth/need-login
 Content-Type: application/json
 
 {
-    "pathname": "/views/dashboard",
     "session": {
-        "userId": "111"
+        "userId": "khai.lv"
+    }
+}
+
+###
+POST http://localhost/api/auth/need-admin-login
+Content-Type: application/json
+
+{
+    "session": {
+        "userId": "khai.lv"
     }
 }

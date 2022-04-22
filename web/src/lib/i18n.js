@@ -51,9 +51,24 @@ export const t = derived(locale, (l) => (key, vars = {}) => {
 
 
 export const loadResource = async (fetch) => {
-  const res = await fetch('/api/resource/find')
+  const res = await fetch(`${import.meta.env.VITE_API_PREFIX}resource/find`)
   const data = await res.json();
   AppStore.resources$.next(data);
   updateResource();
   return;
 };
+
+export const fetchResource = async (fetch) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_PREFIX}resource/find`)
+    return await res.json();
+  } catch(err) {
+    throw err
+  }
+};
+
+export const applyResource = (data) => {
+  AppStore.resources$.next(data);
+  translation = data;
+  locales = Object.keys(translation);
+}

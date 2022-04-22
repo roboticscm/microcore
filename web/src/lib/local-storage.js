@@ -40,5 +40,5 @@ export const buildHeader = () => {
 
 export const cleanup = () => {
     clearToken();
-    location.reload();
+    location.href = '/';
   }

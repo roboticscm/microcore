@@ -1,6 +1,6 @@
 <script context="module">
 	export const load = async ({ fetch, session, url }) => {
-		const res = await fetch('/api/auth/need-login', {
+		const res = await fetch(`${import.meta.env.VITE_API_PREFIX}auth/need-login`, {
 			method: 'POST',
 			body: JSON.stringify({
 				pathname: url.pathname,
@@ -8,7 +8,8 @@
 			})
 		});
 
-		if (res.status > 400) {
+		
+		if (res.status > 300) {
 			return (await res.json()).error
 		}
 

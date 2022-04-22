@@ -6,9 +6,25 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjkzNzc2MDc2MzAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJyb290IiwiZnVsbE5hbWUiOiJUT0RPLi4uIn0.xKlSPYS3E98BuNkJsZxTtjvSaBviDflffMaMexxV_WCGbY8ARy1iSTuPbXIwngXQml6u7gh6OCjkpMyygm8i_X135wgAp08g541-_hh8CdgiZe5CJTx3u0Oqr6vvx1ibPiKHNeBmkVZ_OpjyCWGdiAco1QBzqGWTNDv7DIh83CM
 
 {
-    "username": "khai.lv",
-    "password": "2020",
-    "deviceId": "xxxxx"
+  "env" : {
+    "terminalType": "WEB"
+  },
+  "merchantTradeNo": "9825382937292111",
+  "orderAmount": 25.17,
+  "currency": "USDT",
+  "goods" : {
+    "goodsType": "01",
+    "goodsCategory": "D000",
+    "referenceGoodsId": "7876763A3B",
+    "goodsName": "Ice Cream",
+    "goodsDetail": "Greentea ice cream cone"
+  }
 }
-
 ###
+POST http://localhost/api/merchant/query-order
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjkzNzc2MDc2MzAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJyb290IiwiZnVsbE5hbWUiOiJUT0RPLi4uIn0.xKlSPYS3E98BuNkJsZxTtjvSaBviDflffMaMexxV_WCGbY8ARy1iSTuPbXIwngXQml6u7gh6OCjkpMyygm8i_X135wgAp08g541-_hh8CdgiZe5CJTx3u0Oqr6vvx1ibPiKHNeBmkVZ_OpjyCWGdiAco1QBzqGWTNDv7DIh83CM
+
+{
+  "prepayId": "153382174554931200"
+}

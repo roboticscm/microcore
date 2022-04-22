@@ -14,6 +14,7 @@
 	import Snackbar from '$components/ui/snackbar/index.svelte';
 	import _ from 'lodash';
 	import { goto } from '$app/navigation';
+	import { getTitle } from '$src/lib/url';
 
 
 	const dispatch = createEventDispatcher();
@@ -47,24 +48,21 @@
 		}
 		isRunning = true;
 		const subject = $t('sys.msg.get new password');
-		const html = '<h3>' + $t('sys.msg.please click on the link bellow to reset your password') + '</h3>';
+		const html = '<h3>' + $t('sys.msg.please click on the link below to reset your password') + '</h3>';
 
 		store
 			.forgotPassword({...form.data(), subject, html})
 			.then(async (res) => {
-				if (res.status > 400) {
-					const err = await res.json();
-					if(err.unknownError) {
-						snackbarRef.showUnknownError($t(err.unknownError));
-					} else {
-						form.errors.errors = form.recordErrors(err.error);
-					}
-				} else {
-					snackbarRef.showSendMailToResetPasswordSuccess();
-				}
+				snackbarRef.showSendMailToResetPasswordSuccess();
 			})
 			.catch((err) => {
-				snackbarRef.showUnknownError(_.isString(err) ? $t(err) : $t(err.unknownError));
+				if (err.unknownError) {
+					snackbarRef.showUnknownError(
+						_.isString(err) ? $t(err) : $t(err.unknownError) + ' ' + $t(err.errorDetail)
+					);
+				} else {
+					form.errors.errors = form.recordErrors(err);
+				}
 			})
 			.finally(() => (isRunning = false));
 	};
@@ -73,7 +71,7 @@
 <Snackbar bind:this={snackbarRef} />
 
 <svelte:head>
-	<title>{$t('sys.label.forgot password')}</title>
+	<title>{getTitle($t('sys.label.forgot password'))}</title>
 </svelte:head>
 {#if loaded}
 	<form
@@ -113,7 +111,7 @@
 							type="search"
 							showSuffixIcon={true}
 							suffixIcon="<i class='far fa-id-badge'>"
-							name = "username"
+							name = "email"
 							bind:value={form.email}
 							label={$t('sys.label.email')}
 							placeholder={$t('sys.label.type your email')}

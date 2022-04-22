@@ -1,0 +1,9 @@
+.table {
+    width: 100%;
+    // border: 1px solid gray;
+    border-collapse: collapse;
+
+    th, td {
+        padding: $default-spacing;
+    }
+}

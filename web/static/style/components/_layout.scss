@@ -25,27 +25,46 @@
         padding: $default-spacing;
         padding-top: 0;
         display: flex;
+        overflow: hidden;
+        height: 100%;
         &__left {
             flex: 0;
             min-width: 200px;
             height: 100%;
-            background: var(--base-color);
-            color: var(--base-background);
+            background: var(--header-background);
+            color: var(--header-color);
             padding: $default-spacing;
+            height: 100%;
+            overflow: auto;
         }
 
         &__center {
+            position: relative;
             flex: 1;
             padding-left: $large-spacing;
             padding-right: $large-spacing;
+            height: 100%;
+            overflow: auto;
+
+            &__right-bottom-floating {
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                row-gap: $default-spacing;
+                bottom: 0;
+                right: 0;
+                z-index: $high-z-index;
+            }
         }
 
         &__right {
             flex: 0;
             min-width: 200px;
-            background: var(--base-color);
-            color: var(--base-background);
+            background: var(--header-background);
+            color: var(--header-color);
             padding: $default-spacing;
+            height: 100%;
+            overflow: auto;
         }
     }
 }

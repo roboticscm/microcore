@@ -4,13 +4,14 @@ import { needLogin } from "$lib/token"
 export const post = async ({request}) => {
     try {
         const body = await request.json();
-        const error = await needLogin(body.pathname, body.session);
-        if(!error) {
+        const res = await needLogin(body.pathname, body.session);
+        if(res.ok) {
             return restOk({
-                ok: true
+                ok: true,
+                data: res
             })
         } else {
-            return restError(error, 422);
+            return restError(res, res.status);
         }
         
     } catch (err) {

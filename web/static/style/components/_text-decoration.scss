@@ -8,6 +8,21 @@
     text-transform: uppercase;
 }
 
+.capitalize {
+    text-transform: capitalize;
+}
+
 .text-disabled {
     color: var(--disabled-text-color);
+}
+
+.important-text {
+    color: var(--important-text-color);
+    font-weight: bold ;
+}
+
+.three-dot-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

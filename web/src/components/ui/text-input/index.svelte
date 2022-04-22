@@ -19,10 +19,14 @@
     export let editableLabel = false;
     export let type = 'search';
     export let style='';
+    export let required = false;
   
     /** @type { string | number }*/
     export let tabindex = undefined;
   
+    $: if(label) {
+      label = label + (required ? '(*)' : '')
+    }
     const dispatch = createEventDispatcher();
   
     let inputRef, labelRef;
@@ -129,7 +133,7 @@
       spellcheck={false}
       class="floating__label"
       contenteditable={editableLabel}>
-      {label || ''}
+      {(label || '')}
     </label>
     {#if showSuffixIcon}
       <div class="floating__suffix-icon">
