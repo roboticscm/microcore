@@ -1,11 +1,9 @@
 <script>
 	import { Dropdown } from '$lib/dropdown';
 	import { t } from '$lib/i18n';
-	import Locale from '$components/locale/index.svelte';
 	import { LoginInfo } from '$src/store/login-info';
 	import { someParentHasClass } from '$lib/dom';
 	import { onMount } from 'svelte';
-	import { genUUID } from '$lib/random';
 	import { goto } from '$app/navigation';
 	import { AuthService } from '../login/service';
 	import { cleanup, getToken } from '$lib/local-storage';
@@ -15,22 +13,19 @@
 	import { AppStore } from '$src/store/app';
 	import { App } from '$src/lib/constants';
 
-	export let embedMode = false;
 	export let page = 'views';
 	export let isAdmin = false;
+	export let menuPath;
 
 	const { accountAvatar$, displayName$, username$, email$, currentMenu$ } = LoginInfo;
 
-	const menuUuidClass = genUUID();
-
 	let activeMenuPath;
-	let dropdownRef;
 	let publicIp;
 	let filteredMenuList = [];
 
 	$: if (menuList) createFilteredMenuList();
 
-	$: if ($currentMenu$) {
+	$: if (menuPath) {
 		AppStore.formLoading$.next(true);
 		setTimeout(() => {
 			AppStore.formLoading$.next(false);
@@ -55,8 +50,12 @@
 	};
 
 	const onChooseMenuItem = (menu) => {
+		if ($currentMenu$?.path === menu.path) {
+			return;
+		}
+
 		activeMenuPath = menu.path;
-		currentMenu$.next(menu);
+		// currentMenu$.next(menu);
 
 		switch (menu.code) {
 			case 'logout':
@@ -71,13 +70,14 @@
 		}
 
 		goto(menu.path);
-		Dropdown.hide(dropdownRef);
+		Dropdown.hideFixedClass('main__body__left');
 	};
 
 	const onDocumentClick = (e) => {
 		const ele = e.target;
-		if (!someParentHasClass(ele, menuUuidClass)) {
-			Dropdown.hide(dropdownRef);
+		if (!someParentHasClass(ele, 'hamburger-menu')) {
+			console.log(someParentHasClass(ele, 'hamburger-menu'));
+			Dropdown.hideFixedClass('main__body__left');
 		}
 	};
 
@@ -91,49 +91,8 @@
 	});
 </script>
 
-{#if !embedMode}
-	<div class="nav">
-		<div class="nav__logo center-box">
-			<img
-				style="height: 45px; margin-top: 6px;"
-				src="/static/images/logo-without-text.png"
-				alt="Logo"
-			/>
-			<img style="height: 45px; margin-top: 6px;" src="/static/images/slogan.png" alt="Slogan" />
-		</div>
-
-		<div class="nav__menu {menuUuidClass}" on:click={() => Dropdown.toggle(dropdownRef)}>
-			<i class="fa fa-bars" />
-		</div>
-
-		<div class="nav__title">{@html $t($currentMenu$.name)}</div>
-
-		<div class="nav__avatar">
-			<div class="nav__avatar__locale-changer center-box">
-				<Locale saveDb={false} />
-			</div>
-
-			<div title={`${$username$} - ${$email$}`}>
-				{#if accountAvatar}
-					<img class="nav__avatar__img" src={accountAvatar} alt="Avt" />
-				{:else if $displayName$}
-					<div title={`${$username$} - ${$email$}`} class="nav__avatar__text">
-						{($displayName$ || '').createAvatar()}
-					</div>
-				{:else}
-					<img class="nav__avatar__img" src="/images/camera.png" alt="Avt" />
-				{/if}
-			</div>
-		</div>
-	</div>
-{/if}
-
 <div style="overflow: hidden; height: 100%;">
-	<div
-		style="overflow: auto; height: 100%;"
-		bind:this={dropdownRef}
-		class={embedMode ? '' : 'dropdown'}
-	>
+	<div style="overflow: auto; height: 100%;">
 		<div class="dropdown__header">
 			<div class="dropdown__header__avatar" title={`${$username$} - ${$email$}`}>
 				{#if accountAvatar}

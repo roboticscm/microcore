@@ -4,7 +4,7 @@ export class App {
     static SPACE_CODE = '&nbsp;';
     static SNACKBAR_TIMEOUT = 2000;
     static ADMIN_ACCOUNT_TYPE = 4;
-    static FORM_LOAD_TIMEOUT = 1000; // milliseconds
+    static FORM_LOAD_TIMEOUT = 500; // milliseconds
 }
 
 

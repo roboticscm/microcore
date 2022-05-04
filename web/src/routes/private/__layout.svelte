@@ -23,6 +23,7 @@
 <script>
 	import '../../../static/style/index.scss';
 	import '../../init';
+	import Header from '$components/header/index.svelte';
 	import Nav from '$components/nav/index.svelte';
 	import { onMount } from 'svelte';
 	import { config } from '$src/config/config';
@@ -63,13 +64,13 @@
 <main class="main w-100 h-100">
 	<section class="main__nav">
 		<div class="main__nav__content h-100">
-			<Nav page="private" isAdmin = {true}/>
+			<Header/>
 		</div>
 	</section>
 
 	<section style="padding-top: 6px;" class="main__body">
 		<div class="main__body__left">
-			<Nav page="private" isAdmin = {true} embedMode={true} />
+			<Nav page="private" isAdmin = {true} {menuPath} />
 		</div>
 		<div class="main__body__center">
 			<slot />

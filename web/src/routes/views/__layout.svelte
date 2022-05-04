@@ -45,6 +45,7 @@
 	import '../../../static/style/index.scss';
 	import '../../init';
 	import Nav from '$components/nav/index.svelte';
+	import Header from '$components/header/index.svelte';
 	import { onMount } from 'svelte';
 	import { config } from '$src/config/config';
 	import { AppStore } from '$src/store/app';
@@ -81,16 +82,17 @@
 	<title>{App.NAME} - {$t($currentMenu$?.name)}</title>
 </svelte:head>
 
+
 <main class="main w-100 h-100">
 	<section class="main__nav">
 		<div class="main__nav__content h-100">
-			<Nav isAdmin = {fIsAdmin} />
+			<Header/>
 		</div>
 	</section>
 
 	<section style="padding-top: 6px;" class="main__body">
 		<div class="main__body__left">
-			<Nav isAdmin = {fIsAdmin} embedMode={true} />
+			<Nav page="views" isAdmin = {fIsAdmin} menuPath={fMenuPath} />
 		</div>
 		<div class="main__body__center">
 			<slot />

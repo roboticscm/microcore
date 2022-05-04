@@ -7,7 +7,7 @@ const config = {
 	preprocess: preprocessor(),
 	kit: {
 		adapter: adapterNode({
-			entryPoint: 'src/server.js' 
+			entryPoint: 'src/server.js'
 		}),
 		vite: {
 			resolve: {
@@ -17,6 +17,12 @@ const config = {
 					'$components': path.resolve('./src/components/'),
 					'$ui': path.resolve('./src/components/ui/')
 				}
+			},
+			server: {
+				fs: {
+					// Allow serving files from one level up to the project root
+					allow: ['..']
+				}
 			}
 		}
 	},
@@ -25,8 +31,14 @@ const config = {
 		base: ''
 	},
 	vite: {
-		ssr:{
+		ssr: {
 			noExternal: ['chart.js', '@fortawesome/*']
+		},
+		server: {
+			fs: {
+				// Allow serving files from one level up to the project root
+				allow: ['..']
+			}
 		}
 	}
 };
